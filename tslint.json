@@ -1,0 +1,32 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint:latest",
+    "tslint-react"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tslint.json",
+      "lib/*generated.js",
+      "/node_modules/*"
+    ]
+  },
+  "jsRules": {},
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "arrow-parens": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "jsx-wrap-multiline": false,
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false
+  },
+  "rulesDirectory": []
+}
