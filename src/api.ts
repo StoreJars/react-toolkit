@@ -1,4 +1,4 @@
-import { ajax } from './';
+import { ajax } from './operators';
 
 const headers = {
   'Content-Type': 'application/json',
