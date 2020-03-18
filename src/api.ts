@@ -1,8 +1,4 @@
-import { ajax } from './operators';
-import config from '../config';
-import localStorage from './localStorage';
-
-const { AUTH_URL, STORE_URL } = config;
+import { ajax } from './';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -14,7 +10,7 @@ const multipartHeaders = {
   // 'Content-Type': 'multipart/form-data'
 };
 
-class API {
+export default class API {
   private URL;
 
   constructor(url) {
@@ -61,6 +57,3 @@ class API {
     });
   }
 }
-
-export const authApi = new API(AUTH_URL);
-export const storeApi = new API(STORE_URL);

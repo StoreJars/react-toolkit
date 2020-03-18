@@ -46,25 +46,15 @@ interface IProps {
   columns: any
 }
 
-export default class App extends Component<IProps> {
-  editRecord(record) {
-    console.log("Edit Record", record);
-  }
+export default function (props: IProps) {
+  const { records, columns } = props;
 
-  deleteRecord(record) {
-    console.log("Delete Record", record);
-  }
-
-  render() {
-    const { records, columns } = this.props;
-
-    return (
-      <ReactDatatable
-        config={config}
-        records={records}
-        columns={columns}
-        extraButtons={extraButtons}
-      />
-    )
-  }
+  return (
+    <ReactDatatable
+      config={config}
+      records={records}
+      columns={columns}
+      extraButtons={extraButtons}
+    />
+  )
 }

@@ -9,7 +9,7 @@ coverage
 # production
 bin
 
-public/dist
+dist
 
 # logs
 logs
