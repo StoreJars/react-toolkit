@@ -2,16 +2,9 @@
 # yarn lockfile v1
 
 
-"@ashvin27/react-datatable@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ashvin27/react-datatable/-/react-datatable-1.2.0.tgz#921da0a60042fb3166d4d025e831a9b94ce52540"
-  integrity sha512-qkIjRYTTe21PXq/L1Ua+AD0pTNtw0jJxq1zp5mnkHuEx1tch249BcuYCKdMrL3i/XIU+whqd80ivo9H+mIHYrw==
-  dependencies:
-    lodash "^4.17.11"
-
 "@ashvin27/react-datatable@aiveneh/react-datatable":
   version "1.1.10"
-  resolved "https://codeload.github.com/aiveneh/react-datatable/tar.gz/441362b8c2d56e6d98c8dcec15a7b85c498ee564"
+  resolved "https://codeload.github.com/aiveneh/react-datatable/tar.gz/d1e13b06ed3621ab706aaa46c9fb2a7c254267c2"
   dependencies:
     lodash "^4.17.11"
 
