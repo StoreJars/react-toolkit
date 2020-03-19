@@ -18,7 +18,7 @@
   "author": "Victor Akerele",
   "license": "ISC",
   "dependencies": {
-    "@ashvin27/react-datatable": "aiveneh/react-datatable",
+    "@ashvin27/react-datatable": "https://github.com/aiveneh/react-datatable.git",
     "@types/redux-actions": "^2.6.1",
     "immer": "^6.0.2",
     "react": "^16.13.0",

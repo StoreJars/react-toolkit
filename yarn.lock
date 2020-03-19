@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@ashvin27/react-datatable@aiveneh/react-datatable":
+"@ashvin27/react-datatable@https://github.com/aiveneh/react-datatable.git":
   version "1.1.10"
-  resolved "https://codeload.github.com/aiveneh/react-datatable/tar.gz/d1e13b06ed3621ab706aaa46c9fb2a7c254267c2"
+  resolved "https://github.com/aiveneh/react-datatable.git#494cf2293649389a57411f24313a0699afb8bdef"
   dependencies:
     lodash "^4.17.11"
 
