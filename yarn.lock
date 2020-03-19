@@ -9,6 +9,12 @@
   dependencies:
     lodash "^4.17.11"
 
+"@ashvin27/react-datatable@aiveneh/react-datatable":
+  version "1.1.10"
+  resolved "https://codeload.github.com/aiveneh/react-datatable/tar.gz/441362b8c2d56e6d98c8dcec15a7b85c498ee564"
+  dependencies:
+    lodash "^4.17.11"
+
 "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.0":
   version "7.8.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.7.tgz#8fefce9802db54881ba59f90bb28719b4996324d"
