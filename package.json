@@ -1,7 +1,7 @@
 {
-  "name": "shoppie-client-utils",
+  "name": "storejars-client-utils",
   "version": "1.0.7",
-  "description": "client side utilities for shoppie store",
+  "description": "client side utilities for storejars e-commerce store",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
