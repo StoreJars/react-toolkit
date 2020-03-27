@@ -1,6 +1,7 @@
 import { of } from 'rxjs';
 import { handleActions } from 'redux-actions';
 import { produce } from 'immer';
+
 import ActionState from './actions';
 
 const defaultState = {
@@ -16,8 +17,6 @@ export const initialMetaState = {
   delete: defaultState
 };
 
-// selectEntities is used by all branches inside entities so it can't be defined in ./index.js
-// otherwise a circular reference is created
 export const selectEntities = state => state.entities;
 export const selectEntitiesMeta = state => state.entitiesMeta;
 
@@ -27,12 +26,10 @@ export function responder(response, context = '') {
 }
 
 export function error$(action, response) {
-  // Error handler
   return of(action(responder(response)).error);
 }
 
 export function success$(action, response) {
-  // Success handler
   return of(action(response.data).success);
 }
 

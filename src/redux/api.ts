@@ -1,4 +1,5 @@
 import { ajax } from './operators';
+import config from '../config';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -10,7 +11,7 @@ const multipartHeaders = {
   // 'Content-Type': 'multipart/form-data'
 };
 
-export default class API {
+class API {
   private URL;
 
   constructor(url) {
@@ -21,7 +22,7 @@ export default class API {
    * Otherwise an empty string is passsed to the server
    */
 
-  public get$(route, token) {
+  public get$(route: string, token: string) {
     // options mat contain bearer token
     return ajax({
       url: `${this.URL}${route}`,
@@ -30,7 +31,7 @@ export default class API {
     });
   }
 
-  public post$(route, data, token) {
+  public post$(route: string, data: object, token: string) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
@@ -39,7 +40,7 @@ export default class API {
     });
   }
 
-  public multipartPost$(route, data, token) {
+  public multipartPost$(route: string, data: object, token: string) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
@@ -48,7 +49,7 @@ export default class API {
     });
   }
 
-  public patch$(route, data, token) {
+  public patch$(route: string, data: object, token: string) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PATCH',
@@ -57,3 +58,6 @@ export default class API {
     });
   }
 }
+
+export const storeApi = new API(config.STORE_URL);
+export const authApi = new API(config.AUTH_URL);
