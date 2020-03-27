@@ -9,7 +9,7 @@ import { storeApi } from '../api';
 import namespaces from '../namespaces';
 import { responder } from '../helpers';
 import Actions from '../actions';
-import { selector as tokenSelector } from './login';
+import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.PRODUCTS);
 
@@ -72,4 +72,4 @@ export function createEpic(action$, store$) {
     );
 }
 
-export const epic = combineEpics(readEpic, createEpic) 
+export const epic = combineEpics(readEpic, createEpic);

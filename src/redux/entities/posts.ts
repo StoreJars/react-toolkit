@@ -6,10 +6,10 @@ import { combineEpics } from 'redux-observable';
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators'
 import { responder } from '../helpers';
-import { selector as tokenSelector } from './login';
 import namespaces from '../namespaces';
 import Actions from '../actions';
 import { storeApi } from '../api';
+import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.POSTS);
 

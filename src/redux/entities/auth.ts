@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { produce } from 'immer';
+import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators';
@@ -10,10 +11,10 @@ import namespaces from '../namespaces';
 import localStorage from '../localStorage';
 import Actions from '../actions';
 
-export const action = new Actions(namespaces.REGISTER);
+export const action = new Actions(namespaces.AUTH);
 
-export const selector = createSelector(selectEntities, state => state.register);
-export const metaSelector = createSelector(selectEntitiesMeta, state => state.register);
+export const selector = createSelector(selectEntities, state => state.auth);
+export const metaSelector = createSelector(selectEntitiesMeta, state => state.auth);
 
 export const reducer = handleActions({
   [action.create.success]: (state, action$) => produce(state, draft => {
@@ -24,7 +25,26 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function epic(action$, store$) {
+// login eepic
+export function readEpic(action$, store$) {
+  return action$
+    .pipe(
+      ofType(action.read.loading),
+      switchMap(({ payload }) => {
+        return authApi.post$('/login', payload, '')
+          .pipe(
+            switchMap(({ response }) => {
+              localStorage.set(response.data);
+              return of(action.readAction(response.data).success)
+            }),
+            catchError(({ response }) => of(action.readAction(responder(response)).error)),
+          );
+      }),
+    );
+}
+
+// register epic
+export function createEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.create.loading),
@@ -40,3 +60,6 @@ export function epic(action$, store$) {
       }),
     );
 }
+
+export const epic = combineEpics(readEpic, createEpic);
+

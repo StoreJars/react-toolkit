@@ -9,9 +9,8 @@ import { responder } from '../helpers';
 import { cartStorage } from '../localStorage';
 import { storeApi } from '../api';
 import Actions from '../actions';
-
 import namespaces from '../namespaces';
-import { selector as tokenSelector } from './login';
+import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.CARTS);
 

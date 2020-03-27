@@ -14,6 +14,12 @@ export const action = new Action(namespaces.VENDORS);
 export const selector = createSelector(selectEntities, state => state.vendors);
 export const metaSelector = createSelector(selectEntitiesMeta, state => state.vendors);
 
+export const reducer = handleActions({
+  [action.read.success]: (state, action$) => action$.payload,
+}, []);
+
+export const metaReducer = createMetaReducer(action);
+
 export function epic(action$, store) {
   return action$
     .pipe(
@@ -32,8 +38,3 @@ export function epic(action$, store) {
     );
 }
 
-export const reducer = handleActions({
-  [action.read.success]: (state, action$) => action$.payload,
-}, []);
-
-export const metaReducer = createMetaReducer(action);

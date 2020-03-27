@@ -14,6 +14,15 @@ export const action = new Actions(namespaces.VERIFY_TOKEN);
 export const selector = createSelector(selectEntities, state => state.verifyToken);
 export const metaSelector = createSelector(selectEntitiesMeta, state => state.verifyToken);
 
+export const reducer = handleActions({
+  [action.create.success]: (state, action$) => produce(state, draft => {
+    draft = action$.payload;
+    return draft;
+  }),
+}, { token: '' });
+
+export const metaReducer = createMetaReducer(action);
+
 export function epic(action$) {
   return action$
     .pipe(
@@ -30,11 +39,3 @@ export function epic(action$) {
     );
 }
 
-export const reducer = handleActions({
-  [action.create.success]: (state, action$) => produce(state, draft => {
-    draft = action$.payload;
-    return draft;
-  }),
-}, { token: '' });
-
-export const metaReducer = createMetaReducer(action);

@@ -9,7 +9,7 @@ import { responder } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
 import { storeApi } from '../api';
-import { selector as tokenSelector } from './login';
+import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.CATEGORIES);
 

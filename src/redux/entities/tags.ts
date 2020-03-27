@@ -8,8 +8,8 @@ import { ofType, catchError, switchMap, of } from '../operators';
 import { storeApi } from '../api';
 import { responder } from '../helpers';
 import namespaces from '../namespaces';
-import { selector as tokenSelector } from './login';
 import Actions from '../actions';
+import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.TAGS);
 

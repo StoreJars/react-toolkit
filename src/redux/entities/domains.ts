@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
+import { combineEpics } from 'redux-observable';
 
 import { authApi } from '../api';
 import { ofType, catchError, switchMap, of } from '../operators';
@@ -20,7 +21,7 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function epic(action$, store) {
+export function readEpic(action$, store) {
   return action$
     .pipe(
       ofType(action.read.loading),
@@ -38,7 +39,7 @@ export function epic(action$, store) {
     );
 }
 
-export function epicCreate(action$, store) {
+export function createEpic(action$, store) {
   return action$
     .pipe(
       ofType(action.create.loading),
@@ -55,5 +56,7 @@ export function epicCreate(action$, store) {
       }),
     );
 }
+
+export const epic = combineEpics(readEpic, createEpic);
 
 
