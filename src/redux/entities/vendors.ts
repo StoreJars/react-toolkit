@@ -1,13 +1,13 @@
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
+import { combineEpics } from 'redux-observable';
 
-import { authApi } from '../api';
+import { api } from '../api';
 import { ofType, catchError, switchMap, of } from '../operators';
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
-import { responder } from '../helpers';
+import { responder, gql } from '../helpers';
 import Action from '../actions';
 import namespaces from '../namespaces';
-import localStorage from '../localStorage';
 
 export const action = new Action(namespaces.VENDORS);
 
@@ -20,21 +20,41 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function epic(action$, store) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = localStorage.get();
+function readEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getVendors { email name }}`;
 
-        return authApi.get$('/vendors', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getVendors).success)
+        }),
+        catchError((response) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
+function createEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input:VendorInput) {
+        createVendor(data: $input) { token }
+      }`
+
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          localStorage.set(data.createVendor);
+          return of(action.createAction(data.createVendor).success)
+        }),
+        catchError((response) => {
+          return of(action.createAction(responder(response)).error)
+        }),
+      );
+    }),
+  );
+}
+
+export const epic = combineEpics(readEpic, createEpic);

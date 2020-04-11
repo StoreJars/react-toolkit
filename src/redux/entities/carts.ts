@@ -7,7 +7,7 @@ import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state'
 import { ofType, catchError, switchMap, of } from '../operators';
 import { responder } from '../helpers';
 import { cartStorage } from '../localStorage';
-import { storeApi } from '../api';
+import { api } from '../api';
 import Actions from '../actions';
 import namespaces from '../namespaces';
 import { selector as tokenSelector } from './auth';
@@ -73,26 +73,24 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store$) {
+function readEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.read.loading),
       switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
-
-        return storeApi.get$('/carts', token)
+        return api.query$('/carts')
           .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
+            switchMap(({ data }) => {
+              return of(action.createAction(data).success)
             }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
+            catchError((response) => of(action.createAction(responder(response)).error)),
           );
       }),
     );
 }
 
 // this handles add to cart actions
-export function updateEpic(action$, store$) {
+function updateEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.update.loading),
@@ -101,7 +99,7 @@ export function updateEpic(action$, store$) {
         return of(action.updateAction(payload).success)
 
       }),
-      catchError(({ response }) => of(action.updateAction(responder(response)).error)),
+      catchError((response) => of(action.updateAction(responder(response)).error)),
     );
 }
 

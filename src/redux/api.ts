@@ -1,63 +1,50 @@
-import { ajax } from './operators';
+import ApolloClient, { gql } from 'apollo-boost';
+
+import { from } from './operators';
 import config from '../config';
-
-const headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-};
-
-const multipartHeaders = {
-  // 'Accept': 'application/json',
-  // 'Content-Type': 'multipart/form-data'
-};
+import localStorage from './localStorage';
 
 class API {
-  private URL;
+  private URL: string;
+  private client;
 
-  constructor(url) {
-    this.URL = url
-  }
-  /**
-   * By default a token is sent along with every request if it one present
-   * Otherwise an empty string is passsed to the server
-   */
+  constructor(url: string) {
+    this.URL = url;
 
-  public get$(route: string, token: string) {
-    // options mat contain bearer token
-    return ajax({
-      url: `${this.URL}${route}`,
-      method: 'GET',
-      headers: { ...headers, Authorization: `Bearer ${token}` },
-    });
+    /**
+     * If on server, mock out mutate and client functions
+     */
+    this.client = config.isClient ? new ApolloClient({ uri: this.URL }) : {
+      mutate: () => { },
+      query: () => { },
+    };
   }
 
-  public post$(route: string, data: object, token: string) {
-    return ajax({
-      url: `${this.URL}${route}`,
-      method: 'POST',
-      headers: { ...headers, Authorization: `Bearer ${token}` },
-      body: data,
+  public query$(query: any) {
+    const { token } = localStorage.get();
+
+    const client = new ApolloClient({
+      uri: this.URL,
+      headers: { Authorization: token }
     });
+
+    return from(client.query({ query: gql`${query}` }));
   }
 
-  public multipartPost$(route: string, data: object, token: string) {
-    return ajax({
-      url: `${this.URL}${route}`,
-      method: 'POST',
-      headers: { ...multipartHeaders, Authorization: `Bearer ${token}` },
-      body: data,
-    });
-  }
+  public mutate$(query: any, payload: object) {
+    const { token } = localStorage.get();
 
-  public patch$(route: string, data: object, token: string) {
-    return ajax({
-      url: `${this.URL}${route}`,
-      method: 'PATCH',
-      headers: { ...headers, Authorization: `Bearer ${token}` },
-      body: data,
+    const client = new ApolloClient({
+      uri: this.URL,
+      headers: { Authorization: token }
     });
+
+    return from(client.mutate({
+      mutation: query,
+      variables: { input: payload },
+
+    }));
   }
 }
 
-export const storeApi = new API(config.STORE_URL);
-export const authApi = new API(config.AUTH_URL);
+export const api = new API(config.GATEWAY_URL);

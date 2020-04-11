@@ -2,13 +2,12 @@ import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { combineEpics } from 'redux-observable';
 
-import { authApi } from '../api';
+import { api } from '../api';
 import { ofType, catchError, switchMap, of } from '../operators';
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import Action from '../actions';
-import { responder } from '../helpers';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
-import localStorage from '../localStorage';
 
 export const action = new Action(namespaces.DOMAINS);
 
@@ -21,40 +20,38 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = localStorage.get();
+function readEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getDomains { name url }}`;
 
-        return authApi.get$('/domains', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getDomains).success)
+        }),
+        catchError((response) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
-export function createEpic(action$, store) {
-  return action$
-    .pipe(
-      ofType(action.create.loading),
-      switchMap(({ payload }) => {
-        const { token } = localStorage.get();
+function createEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input: DomainInput){
+          createDomain(data: $input) { name }
+      }`
 
-        return authApi.post$('/domains', payload, token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createDomain).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
 export const epic = combineEpics(readEpic, createEpic);

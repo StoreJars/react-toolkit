@@ -5,11 +5,10 @@ import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators'
-import { responder } from '../helpers';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
-import { storeApi } from '../api';
+import { api } from '../api';
 import Actions from '../actions';
-import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.ORDERS);
 
@@ -26,22 +25,40 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action)
 
-export function readEpic(action$, store$) {
+function readEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.read.loading),
       switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
+        const query = gql`query{ getOrders { name }}`;
 
-        return storeApi.get$('/orders', token)
+        return api.query$(query)
           .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
+            switchMap(({ data }) => {
+              return of(action.readAction(data.getOrders).success)
             }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
+            catchError((response) => of(action.readAction(responder(response)).error)),
           );
       }),
     );
 }
 
-export const epic = combineEpics(readEpic);
+function createEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input: OrderInput){
+        createOrder(data: $input) { name }
+      }`
+
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createAdmin).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
+}
+
+export const epic = combineEpics(readEpic, createEpic);

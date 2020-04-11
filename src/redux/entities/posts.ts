@@ -5,11 +5,10 @@ import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators'
-import { responder } from '../helpers';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
-import { storeApi } from '../api';
-import { selector as tokenSelector } from './auth';
+import { api } from '../api';
 
 export const action = new Actions(namespaces.POSTS);
 
@@ -27,40 +26,38 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store$) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
+function readEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getPosts { email }}`;
 
-        return storeApi.get$('/posts', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getPosts).success)
+        }),
+        catchError(({ response }) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
-export function createEpic(action$, store$) {
-  return action$
-    .pipe(
-      ofType(action.create.loading),
-      switchMap(({ payload }) => {
-        const token = tokenSelector(store$.value);
+function createEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input: PostInput){
+        createPost(data: $input) { title }
+      }`
 
-        return storeApi.multipartPost$('/posts', payload, token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createPost).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
 export const epic = combineEpics(readEpic, createEpic) 

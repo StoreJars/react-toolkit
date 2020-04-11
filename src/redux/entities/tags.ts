@@ -5,11 +5,10 @@ import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators';
-import { storeApi } from '../api';
-import { responder } from '../helpers';
+import { api } from '../api';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
-import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.TAGS);
 
@@ -27,39 +26,37 @@ export const reducer = handleActions({
 export const metaReducer = createMetaReducer(action);
 
 function readEpic(action$, store$) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getTags { name }}`;
 
-        return storeApi.get$('/tags', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getTags).success)
+        }),
+        catchError((response) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
 function createEpic(action$, store$) {
-  return action$
-    .pipe(
-      ofType(action.create.loading),
-      switchMap(({ payload }) => {
-        const token = tokenSelector(store$.value);
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input: TagInput){
+        createTag(data: $input) { name }
+      }`
 
-        return storeApi.post$('/tags', payload, token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createTag).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
 export const epic = combineEpics(createEpic, readEpic) 

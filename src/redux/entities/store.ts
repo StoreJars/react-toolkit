@@ -1,14 +1,13 @@
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { produce } from 'immer';
+import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators';
-import { authApi } from '../api';
-import { responder } from '../helpers';
+import { api } from '../api';
+import { responder, gql } from '../helpers';
 import Actions from '../actions';
-
-import localStorage from '../localStorage';
 import namespaces from '../namespaces';
 
 export const action = new Actions(namespaces.STORES);
@@ -25,21 +24,38 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function epic(action$, store$) {
-  const { token } = localStorage.get();
+function readEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getStores { name }}`;
 
-  return action$
-    .pipe(
-      ofType(action.create.loading),
-      switchMap(({ payload }) => {
-        return authApi.post$('/stores', payload, token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getStores).success)
+        }),
+        catchError((response) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
+function createEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input:StoreInput) {
+        createStore(data: $input) { token }
+      }`
+
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createStore).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
+}
+
+export const epic = combineEpics(readEpic, createEpic);

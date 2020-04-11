@@ -5,10 +5,9 @@ import { combineEpics } from 'redux-observable';
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators'
 import Action from '../actions'
-import { authApi } from '../api';
-import { responder } from '../helpers';
+import { api } from '../api';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
-import localStorage from '../localStorage';
 
 export const action = new Action(namespaces.ADMINS);
 
@@ -21,40 +20,38 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = localStorage.get();
+function readEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getAdmins { email name}}`;
 
-        return authApi.get$('/admins', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.query$(query).pipe(
+        switchMap(({ data }) => {
+          return of(action.readAction(data.getAdmins).success)
+        }),
+        catchError((response) => of(action.readAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
-export function createEpic(action$, store) {
-  return action$
-    .pipe(
-      ofType(action.create.loading),
-      switchMap(({ payload }) => {
-        const { token } = localStorage.get();
+function createEpic(action$, store) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input: AdminInput){
+        createAdmin(data: $input) { email }
+      }`
 
-        return authApi.post$('/admins', payload, token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
-          );
-      }),
-    );
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          return of(action.createAction(data.createAdmin).success)
+        }),
+        catchError((response) => of(action.createAction(responder(response)).error)),
+      );
+    }),
+  );
 }
 
 export const epic = combineEpics(readEpic, createEpic);

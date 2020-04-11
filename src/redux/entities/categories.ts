@@ -5,11 +5,10 @@ import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators'
-import { responder } from '../helpers';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
-import { storeApi } from '../api';
-import { selector as tokenSelector } from './auth';
+import { api } from '../api';
 
 export const action = new Actions(namespaces.CATEGORIES);
 
@@ -27,38 +26,40 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store$) {
+function readEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.read.loading),
       switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
+        const query = gql`query{ getCategories { name }}`;
 
-        return storeApi.get$('/categories', token)
+        return api.query$(query)
           .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
+            switchMap(({ data }) => {
+              return of(action.readAction(data.getCategories).success)
             }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
+            catchError((response) => of(action.readAction(responder(response)).error)),
           );
       }),
     )
     ;
 }
 
-export function createEpic(action$, store$) {
+function createEpic(action$, store$) {
   return action$
     .pipe(
       ofType(action.create.loading),
       switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
+        const query = gql`mutation($input: CategoryInput){
+          createCategory(data: $input) {name }
+        }`
 
-        return storeApi.post$('/categories', payload, token)
+        return api.mutate$(query, payload)
           .pipe(
-            switchMap(({ response }) => {
-              return of(action.createAction(response.data).success)
+            switchMap(({ data }) => {
+              return of(action.createAction(data.createCategory).success)
             }),
-            catchError(({ response }) => of(action.createAction(responder(response)).error)),
+            catchError((response) => of(action.createAction(responder(response)).error)),
           );
       }),
     );

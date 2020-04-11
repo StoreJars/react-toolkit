@@ -5,11 +5,10 @@ import { combineEpics } from 'redux-observable';
 
 import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state';
 import { ofType, catchError, switchMap, of } from '../operators';
-import { authApi } from '../api';
-import { responder } from '../helpers';
+import { api } from '../api';
+import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
-import { selector as tokenSelector } from './auth';
 
 export const action = new Actions(namespaces.CUSTOMERS);
 
@@ -26,21 +25,42 @@ export const reducer = handleActions({
 
 export const metaReducer = createMetaReducer(action);
 
-export function readEpic(action$, store$) {
-  return action$
-    .pipe(
-      ofType(action.read.loading),
-      switchMap(({ payload }) => {
-        const { token } = tokenSelector(store$.value);
-        return authApi.get$('/customers', token)
-          .pipe(
-            switchMap(({ response }) => {
-              return of(action.readAction(response.data).success)
-            }),
-            catchError(({ response }) => of(action.readAction(responder(response)).error)),
-          );
-      }),
-    );
+function readEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.read.loading),
+    switchMap(({ payload }) => {
+      const query = gql`query{ getCustomers { email name }}`;
+
+      return api.query$(query)
+        .pipe(
+          switchMap(({ data }) => {
+            return of(action.readAction(data.getCustomers).success)
+          }),
+          catchError((response) => of(action.readAction(responder(response)).error)),
+        );
+    }),
+  );
 }
 
-export const epic = combineEpics(readEpic) 
+function createEpic(action$, store$) {
+  return action$.pipe(
+    ofType(action.create.loading),
+    switchMap(({ payload }) => {
+      const query = gql`mutation($input:CustomerInput) {
+        createCustomer(data: $input) { token name }
+      }`
+
+      return api.mutate$(query, payload).pipe(
+        switchMap(({ data }) => {
+          localStorage.set(data.createCustomer);
+          return of(action.createAction(data.createCustomer).success)
+        }),
+        catchError((response) => {
+          return of(action.createAction(responder(response)).error)
+        }),
+      );
+    }),
+  );
+}
+
+export const epic = combineEpics(readEpic, createEpic) 
