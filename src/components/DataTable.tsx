@@ -14,15 +14,13 @@ const config = {
 const extraButtons = [
   {
     className: "btn btn-primary buttons-pdf",
-    title: "Export TEst",
+    title: "Export Test",
     children: [
       <span>
         <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
       </span>
     ],
-    onClick: (event) => {
-      console.log(event);
-    },
+    onClick: (event) => { },
   },
   {
     className: "btn btn-primary buttons-pdf",
@@ -32,12 +30,8 @@ const extraButtons = [
         <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
       </span>
     ],
-    onClick: (event) => {
-      console.log(event);
-    },
-    onDoubleClick: (event) => {
-      console.log("doubleClick")
-    }
+    onClick: (event) => { },
+    onDoubleClick: (event) => { }
   },
 ];
 
