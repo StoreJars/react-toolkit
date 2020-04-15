@@ -9,6 +9,7 @@ import { api } from '../api';
 import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
+import tokenStorage from '../../storage/tokenStorage';
 
 export const action = new Actions(namespaces.CUSTOMERS);
 
@@ -18,10 +19,11 @@ export const readMetaSelector = createSelector(metaSelector, state => state.read
 
 export const reducer = handleActions({
   [action.read.success]: (state, action$) => produce(state, draft => {
-    draft.data.push(action$.payload);
+    //@ts-ignore
+    draft.data = action$.payload;
     return draft
   }),
-}, { data: [] });
+}, { data: [], item: {} });
 
 export const metaReducer = createMetaReducer(action);
 
@@ -52,7 +54,7 @@ function createEpic(action$, store$) {
 
       return api.mutate$(query, payload).pipe(
         switchMap(({ data }) => {
-          localStorage.set(data.createCustomer);
+          tokenStorage.set(data.createCustomer);
           return of(action.createAction(data.createCustomer).success)
         }),
         catchError((response) => {

@@ -10,7 +10,7 @@ import { reducer as orders } from './entities/orders';
 import { reducer as posts } from './entities/posts';
 import { reducer as products } from './entities/products';
 import { reducer as auth } from './entities/auth';
-import { reducer as store } from './entities/store';
+import { reducer as store } from './entities/stores';
 import { reducer as tags } from './entities/tags';
 import { reducer as themes } from './entities/themes';
 import { reducer as vendors } from './entities/vendors';

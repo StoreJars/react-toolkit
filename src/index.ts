@@ -1,6 +1,7 @@
 export { windowExists, documentExists } from './globals';
 
-export { default as localStorage, cartStorage } from './redux/localStorage';
+export { default as tokenStorage } from './storage/tokenStorage';
+export { default as cartStorage } from './storage/cartStorage';
 
 export { configureStore, epicMiddleware } from './redux/store';
 export { default as rootEpic } from './redux/rootEpic';
@@ -15,7 +16,7 @@ export { action as domains, selector as domainsSelector, metaSelector as domains
 export { action as orders, selector as ordersSelector, metaSelector as ordersMetaSelector } from './redux/entities/orders';
 export { action as posts, selector as postsSelector, metaSelector as postsMetaSelector } from './redux/entities/posts';
 export { action as products, selector as productsSelector, metaSelector as productsMetaSelector } from './redux/entities/products';
-export { action as store, selector as storeSelector, metaSelector as storeMetaSelector } from './redux/entities/store';
+export { action as stores, selector as storesSelector, metaSelector as storesMetaSelector } from './redux/entities/stores';
 export { action as tags, selector as tagsSelector, metaSelector as tagsMetaSelector } from './redux/entities/tags';
 export { action as themes, selector as themesSelector, metaSelector as themesMetaSelector } from './redux/entities/themes';
 export { action as vendors, selector as vendorsSelector, metaSelector as vendorsMetaSelector } from './redux/entities/vendors';

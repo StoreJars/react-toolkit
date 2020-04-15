@@ -18,10 +18,11 @@ export const readMetaSelector = createSelector(metaSelector, state => state.read
 
 export const reducer = handleActions({
   [action.read.success]: (state, action$) => produce(state, draft => {
-    draft.data.push(action$.payload);
+    //@ts-ignore
+    draft.data = action$.payload;
     return draft
   }),
-}, { data: [] });
+}, { data: [], item: {} });
 
 export const metaReducer = createMetaReducer(action)
 

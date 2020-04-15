@@ -1,29 +1,28 @@
 
 import React from 'react';
-import { Label } from './';
+import { Label, ErrorLabel } from './';
 
 
 interface IProps {
   label: string;
   placeholder: string;
-  type: 'email' | 'password' | 'text' | 'number';
+  type?: 'email' | 'password' | 'text' | 'number';
   name: string;
   value: string | number;
-  required: boolean;
+  required?: boolean;
   onChange: any;
-  errors: object
+  error: string
 }
 
 export default function TextInput(props: IProps) {
-  const { placeholder, label, type, onChange, name, value, required, errors } = props;
+  const { placeholder, label, type, onChange, name, value, required, error } = props;
 
   return (
     <div className="form-group">
       <Label text={label} htmlFor={name} />
-      <p style={{ color: 'red', marginTop: 10 }}>{errors[name]}</p>
 
       <input
-        type={type}
+        type={type || 'text'}
         className="form-control"
         id={name}
         placeholder={placeholder}
@@ -32,6 +31,7 @@ export default function TextInput(props: IProps) {
         value={value}
         required={required || false}
       />
+      <ErrorLabel message={error} />
     </div>
   )
 }

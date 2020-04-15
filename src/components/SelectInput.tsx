@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Label } from './';
+import { Label, ErrorLabel } from './';
 
 interface IProps {
   label: string;
@@ -8,18 +8,17 @@ interface IProps {
   name: string;
   value: string;
   data: Array<any>;
-  required: boolean;
+  required?: boolean;
   onChange: any;
-  errors: object
+  error: string
 }
 
 export default function SelectInput(props: IProps) {
-  const { placeholder, label, onChange, name, value, required, errors, data } = props;
+  const { placeholder, label, onChange, name, value, required, error, data } = props;
 
   return (
     <div className="form-group">
       <Label text={label} htmlFor={name} />
-      <p style={{ color: 'red', marginTop: 10 }}>{errors[name]}</p>
 
       <select
         id={name}
@@ -34,6 +33,8 @@ export default function SelectInput(props: IProps) {
           <option key={item._id} value={item._id}> {item.name} </option>
         ))}
       </select>
+
+      <ErrorLabel message={error} />
     </div>
   )
 }

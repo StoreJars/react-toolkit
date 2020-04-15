@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppleSpinner } from './';
 
 interface IProps {
   isSubmitting: boolean
@@ -15,15 +16,18 @@ export default function Button(props: IProps) {
         type={type || 'submit'}
         className="btn btn-primary mr-2 mb-2 mb-md-0"
         disabled={isSubmitting}
-        style={{ minWidth: '100px' }}
+        style={{ minWidth: '150px', minHeight: '40px' }}
       >
-        {text}
-      </button>
+        {isSubmitting ? (
+          <span>
+            <AppleSpinner />
+            <span style={{ marginLeft: 10, display: 'inline', fontFamily: 'inherit' }}>
+              Loading...
+           </span>
+          </span>
+        ) : text}
 
-      {/* <button type="button" className="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
-      <i className="btn-icon-prepend" data-feather="twitter"></i>
-      Login with twitter
-      </button> */}
+      </button>
     </div>
   )
 }

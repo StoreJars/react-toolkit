@@ -2,7 +2,7 @@ import ApolloClient, { gql } from 'apollo-boost';
 
 import { from } from './operators';
 import config from '../config';
-import localStorage from './localStorage';
+import tokenStorage from '../storage/tokenStorage';
 
 class API {
   private URL: string;
@@ -21,7 +21,7 @@ class API {
   }
 
   public query$(query: any) {
-    const { token } = localStorage.get();
+    const { token } = tokenStorage.get();
 
     const client = new ApolloClient({
       uri: this.URL,
@@ -32,7 +32,7 @@ class API {
   }
 
   public mutate$(query: any, payload: object) {
-    const { token } = localStorage.get();
+    const { token } = tokenStorage.get();
 
     const client = new ApolloClient({
       uri: this.URL,

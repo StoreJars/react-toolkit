@@ -9,7 +9,7 @@ import { api } from '../api';
 import { responder, gql } from '../helpers';
 import namespaces from '../namespaces';
 import Actions from '../actions';
-import localStorage from '../localStorage';
+import tokenStorage from '../../storage/tokenStorage';
 
 export const action = new Actions(namespaces.AUTH);
 
@@ -37,7 +37,7 @@ function createEpic(action$, store$) {
 
       return api.mutate$(query, payload).pipe(
         switchMap(({ data }) => {
-          localStorage.set(data.login);
+          tokenStorage.set(data.login);
           return of(action.createAction(data.login).success)
         }),
         catchError((response) => of(action.createAction(responder(response)).error)),

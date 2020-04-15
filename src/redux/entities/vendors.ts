@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { combineEpics } from 'redux-observable';
+import { produce } from 'immer';
 
 import { api } from '../api';
 import { ofType, catchError, switchMap, of } from '../operators';
@@ -8,6 +9,7 @@ import { createMetaReducer, selectEntitiesMeta, selectEntities } from '../state'
 import { responder, gql } from '../helpers';
 import Action from '../actions';
 import namespaces from '../namespaces';
+import tokenStorage from '../../storage/tokenStorage';
 
 export const action = new Action(namespaces.VENDORS);
 
@@ -15,8 +17,12 @@ export const selector = createSelector(selectEntities, state => state.vendors);
 export const metaSelector = createSelector(selectEntitiesMeta, state => state.vendors);
 
 export const reducer = handleActions({
-  [action.read.success]: (state, action$) => action$.payload,
-}, []);
+  [action.read.success]: (state, action$) => produce(state, draft => {
+    //@ts-ignore
+    draft.data = action$.payload;
+    return draft
+  }),
+}, { data: [], item: {} });
 
 export const metaReducer = createMetaReducer(action);
 
@@ -46,7 +52,7 @@ function createEpic(action$, store$) {
 
       return api.mutate$(query, payload).pipe(
         switchMap(({ data }) => {
-          localStorage.set(data.createVendor);
+          tokenStorage.set(data.createVendor);
           return of(action.createAction(data.createVendor).success)
         }),
         catchError((response) => {

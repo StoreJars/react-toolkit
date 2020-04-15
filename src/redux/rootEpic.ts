@@ -10,7 +10,7 @@ import { epic as domains } from './entities/domains';
 import { epic as orders } from './entities/orders';
 import { epic as posts } from './entities/posts';
 import { epic as products } from './entities/products';
-import { epic as store } from './entities/store';
+import { epic as store } from './entities/stores';
 import { epic as tags } from './entities/tags';
 import { epic as themes } from './entities/themes';
 import { epic as vendors } from './entities/vendors';

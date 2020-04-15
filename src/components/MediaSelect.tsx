@@ -1,5 +1,5 @@
 import React from 'react';
-import Label from './Label';
+import { Label, ErrorLabel } from './';
 
 const IMAGE_TYPES = '.png, .jpeg, .jpg';
 
@@ -7,10 +7,11 @@ interface IProps {
   label: any;
   onChange: any;
   name: string;
+  error: string;
 }
 
 export default function MediaSelect(props: IProps) {
-  const { onChange, label, name } = props;
+  const { onChange, label, name, error } = props;
 
   return (
     <div>
@@ -22,6 +23,7 @@ export default function MediaSelect(props: IProps) {
         id='validatedCustomFile'
         onChange={onChange}
       />
+      <ErrorLabel message={error} />
     </div>
   );
 }

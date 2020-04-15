@@ -9,6 +9,7 @@ interface IProps {
   getFile: any;
   label: string;
   alt: string;
+  error: string;
 }
 
 interface IState {
@@ -50,7 +51,7 @@ export default class MediaUpload extends Component<IProps, IState> {
 
   public render() {
     const { mediaPreview } = this.state;
-    const { label, alt } = this.props;
+    const { label, alt, error } = this.props;
 
     return (
       <div style={{ marginTop: '20px', marginBottom: '50px' }}>
@@ -67,6 +68,7 @@ export default class MediaUpload extends Component<IProps, IState> {
                 onChange={this.handleChange}
                 label={label}
                 name="image"
+                error={error}
               />
             }
           </div>

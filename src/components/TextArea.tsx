@@ -1,22 +1,20 @@
 import React from 'react';
-import { Label } from './';
+import { Label, ErrorLabel } from './';
 
 interface IProps {
   label: string;
   name: string;
   value: string;
   onChange: any;
-  errors: object;
+  error: string;
 }
 
 export default function TextArea(props: IProps) {
-  const { label, onChange, name, value, errors } = props;
+  const { label, onChange, name, value, error } = props;
 
   return (
     <div className="form-group">
       <Label text={label} htmlFor={name} />
-
-      <p style={{ color: 'red', marginTop: 10 }}>{errors[name]}</p>
 
       <textarea
         className="form-control"
@@ -26,6 +24,7 @@ export default function TextArea(props: IProps) {
         onChange={onChange}
         value={value}
       />
+      <ErrorLabel message={error} />
     </div>
   )
 }

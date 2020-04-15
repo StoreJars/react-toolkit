@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { handleActions } from 'redux-actions';
 import { combineEpics } from 'redux-observable';
+import { produce } from 'immer';
 
 import { ofType, catchError, switchMap, of } from '../operators';
 import { api } from '../api';
@@ -15,8 +16,12 @@ export const selector = createSelector(selectEntities, state => state.businessTy
 export const metaSelector = createSelector(selectEntitiesMeta, state => state.businessTypes);
 
 export const reducer = handleActions({
-  [action.read.success]: (state, action$) => action$.payload
-}, []);
+  [action.read.success]: (state, action$) => produce(state, draft => {
+    //@ts-ignore
+    draft.data = action$.payload;
+    return draft
+  }),
+}, { data: [], item: {} });
 
 export const metaReducer = createMetaReducer(action);
 

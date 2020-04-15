@@ -8,11 +8,11 @@ interface IProps {
   name: string;
   value: string;
   onChange: any;
-  errors: object;
+  error: string;
 }
 
 export default function PasswordInput(props: IProps) {
-  const { placeholder, label, onChange, name, value, errors } = props;
+  const { placeholder, label, onChange, name, value, error } = props;
 
   return (
     <TextInput
@@ -22,7 +22,7 @@ export default function PasswordInput(props: IProps) {
       label={label}
       type="password"
       value={value}
-      errors={errors}
+      error={error}
       required
     />
   )

@@ -12,17 +12,18 @@ import { api } from '../api';
 
 export const action = new Actions(namespaces.CATEGORIES);
 
-export const selector = createSelector(selectEntities, state => state.categories.data);
+export const selector = createSelector(selectEntities, state => state.categories);
 export const metaSelector = createSelector(selectEntitiesMeta, state => state.categories);
 export const readMetaSelector = createSelector(metaSelector, state => state.read);
 export const createMetaSelector = createSelector(metaSelector, state => state.create);
 
 export const reducer = handleActions({
   [action.read.success]: (state, action$) => produce(state, draft => {
-    draft.data.push(action$.payload);
+    //@ts-ignore
+    draft.data = action$.payload;
     return draft
   }),
-}, { data: [] });
+}, { data: [], item: {} });
 
 export const metaReducer = createMetaReducer(action);
 
@@ -31,7 +32,7 @@ function readEpic(action$, store$) {
     .pipe(
       ofType(action.read.loading),
       switchMap(({ payload }) => {
-        const query = gql`query{ getCategories { name }}`;
+        const query = gql`query{ getCategories { name _id}}`;
 
         return api.query$(query)
           .pipe(

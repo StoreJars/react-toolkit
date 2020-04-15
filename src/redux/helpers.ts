@@ -3,7 +3,7 @@ export { gql } from 'apollo-boost';
 export function responder(error) {
   const NO_INTERNET_MESSAGE = 'No internet, please check your network connection and try again';
   const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please try again later';
-  const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpedted error occured';
+  const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occured';
 
   try {
     const { graphQLErrors, networkError } = error;
@@ -15,7 +15,6 @@ export function responder(error) {
 
     if (graphQLErrors) {
       const { code, response } = graphQLErrors[0].extensions;
-      
       console.log('GraphQL Error', response);
 
       if (response) {
