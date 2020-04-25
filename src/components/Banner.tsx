@@ -21,6 +21,7 @@ function Banner(props: IProps) {
 }
 
 function Error(props: IProps) {
+  // TODO use this as red color #fbb
   return <Banner {...props} type='danger' />
 }
 

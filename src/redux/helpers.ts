@@ -1,4 +1,4 @@
-export { gql } from 'apollo-boost';
+export { default as gql } from 'graphql-tag';
 
 export function responder(error) {
   const NO_INTERNET_MESSAGE = 'No internet, please check your network connection and try again';

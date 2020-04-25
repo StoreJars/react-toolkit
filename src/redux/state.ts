@@ -13,6 +13,8 @@ const defaultState = {
 export const initialMetaState = {
   create: defaultState,
   read: defaultState,
+  readOne: defaultState,
+  patch: defaultState,
   update: defaultState,
   delete: defaultState
 };
@@ -49,6 +51,20 @@ export function createMetaReducer(action: ActionState) {
       // @ts-ignore
       [action.read.error]: (state, action$) => produce(state, draft => { draft.read.loading = false, draft.read.error = action$.payload }),
       [action.read.reset]: (state) => produce(state, draft => { draft.read = defaultState }),
+
+      [action.readOne.loading]: (state) => produce(state, draft => { draft.readOne.loading = true }),
+      // @ts-ignore
+      [action.readOne.success]: (state, action$) => produce(state, draft => { draft.readOne.loading = false, draft.readOne.success = action$.payload }),
+      // @ts-ignore
+      [action.readOne.error]: (state, action$) => produce(state, draft => { draft.readOne.loading = false, draft.readOne.error = action$.payload }),
+      [action.readOne.reset]: (state) => produce(state, draft => { draft.readOne = defaultState }),
+
+      [action.patch.loading]: (state) => produce(state, draft => { draft.read.loading = true }),
+      // @ts-ignore
+      [action.patch.success]: (state, action$) => produce(state, draft => { draft.patch.loading = false, draft.patch.success = action$.payload }),
+      // @ts-ignore
+      [action.patch.error]: (state, action$) => produce(state, draft => { draft.patch.loading = false, draft.patch.error = action$.payload }),
+      [action.patch.reset]: (state) => produce(state, draft => { draft.patch = defaultState }),
 
       [action.update.loading]: (state) => produce(state, draft => { draft.update.loading = true }),
       // @ts-ignore
