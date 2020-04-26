@@ -1,10 +1,10 @@
-import config from '../config';
-import { windowExists } from '../globals';
+import { getItem, setItem } from 'localforage';
+
 
 /**
- * either you instantiate the class with your key pr use the already instantiated one
+ * this encrypts data store and decrypts on retrieval
  */
-class TokenStorage {
+export default class TokenStorage {
   private key;
   private salt: string;
 
@@ -36,14 +36,13 @@ class TokenStorage {
     return JSON.parse(o.join(''));
   }
 
-  public set(data) {
-    const res = windowExists.localStorage.setItem(this.key, this.encrypt(data));
-    return res;
+  public async set(data) {
+    return setItem(this.key, this.encrypt(data));
   }
 
-  public get() {
+  public async get() {
     try {
-      const data = windowExists.localStorage.getItem(this.key);
+      const data = await getItem(this.key);
       return this.decrypt(data);
     } catch (ex) {
       console.log('unable to get cache 😭');
@@ -55,5 +54,3 @@ class TokenStorage {
     }
   };
 }
-
-export default new TokenStorage(config.TOKEN_STORAGE_KEY);

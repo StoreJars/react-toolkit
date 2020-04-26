@@ -6,19 +6,18 @@ import { createUploadLink } from 'apollo-upload-client/lib/index';
 import gql from 'graphql-tag';
 
 import { from } from './operators';
-import config from '../config';
-import tokenStorage from '../storage/tokenStorage';
 
-class API {
+export default class API {
   private URL: string;
   private client;
+  private token: string | null;
 
-  constructor(url: string) {
+  constructor(url: string, token: string | null) {
     this.URL = url;
-    const { token } = tokenStorage.get();
+    this.token = token;
     /**
-     * If on server, mock out mutate and client functions
-     */
+ * If on server, mock out mutate and client functions
+ */
     this.client = new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
@@ -34,7 +33,7 @@ class API {
         createUploadLink({
           uri: this.URL,
           credentials: 'same-origin',
-          headers: { Authorization: token }
+          headers: { Authorization: this.token }
         })
       ]),
       cache: new InMemoryCache()
@@ -55,5 +54,3 @@ class API {
     }));
   }
 }
-
-export const api = new API(config.GATEWAY_URL);
