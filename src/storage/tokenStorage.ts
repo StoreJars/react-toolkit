@@ -1,14 +1,14 @@
-import { getItem, setItem } from 'localforage';
+import { windowExists } from '../';
 
 
 /**
  * this encrypts data store and decrypts on retrieval
  */
 export default class TokenStorage {
-  private key;
+  private key: string;
   private salt: string;
 
-  constructor(key) {
+  constructor(key: string) {
     this.key = key;
     this.salt = 'A~fe`;(-';
   }
@@ -36,13 +36,13 @@ export default class TokenStorage {
     return JSON.parse(o.join(''));
   }
 
-  public async set(data) {
-    return setItem(this.key, this.encrypt(data));
+  public set(data) {
+    return windowExists.localStorage.setItem(this.key, this.encrypt(data));
   }
 
-  public async get() {
+  public get() {
     try {
-      const data = await getItem(this.key);
+      const data = windowExists.localStorage.getItem(this.key);
       return this.decrypt(data);
     } catch (ex) {
       console.log('unable to get cache 😭');

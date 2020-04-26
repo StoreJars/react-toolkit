@@ -5,7 +5,7 @@ const headers = {
   'Accept': 'application/json',
 };
 
-export class API {
+export default class API {
   private URL: string;
   private token: string;
 

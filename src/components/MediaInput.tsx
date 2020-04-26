@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 
-import { imageValidator } from '../utils';
+import imageValidator from '../imageValidator';
 import { MediaSelect, MediaPreview } from './';
 
 interface IProps {
