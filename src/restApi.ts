@@ -48,5 +48,14 @@ export default class API {
       body: data,
     });
   }
+
+  public delete$(route, data) {
+    return ajax({
+      url: `${this.URL}${route}`,
+      method: 'DELETE',
+      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      body: data,
+    });
+  }
 }
 

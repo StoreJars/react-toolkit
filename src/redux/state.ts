@@ -1,7 +1,6 @@
 import { of } from 'rxjs';
 import { handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import gql from 'graphql-tag';
 
 import ActionState from './actions';
 
