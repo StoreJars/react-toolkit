@@ -12,27 +12,16 @@ const config = {
 };
 
 const extraButtons = [
-  {
-    className: "btn btn-primary buttons-pdf",
-    title: "Export Test",
-    children: [
-      <span>
-        <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
-      </span>
-    ],
-    onClick: (event) => { },
-  },
-  {
-    className: "btn btn-primary buttons-pdf",
-    title: "Export TEst",
-    children: [
-      <span>
-        <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
-      </span>
-    ],
-    onClick: (event) => { },
-    onDoubleClick: (event) => { }
-  },
+  // {
+  //   className: "btn btn-primary buttons-pdf",
+  //   title: "Export Test",
+  //   children: [
+  //     <span>
+  //       <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
+  //     </span>
+  //   ],
+  //   onClick: (event) => { },
+  // },
 ];
 
 interface IProps {
