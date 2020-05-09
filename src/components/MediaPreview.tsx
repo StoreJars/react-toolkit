@@ -4,31 +4,30 @@ import { X } from 'react-feather';
 import { Image } from './';
 
 interface IProps {
-  removePreview: any;
-  title: any;
-  mediaPreview: any;
   alt: string;
+  removePreview: any;
+  mediaPreview: any;
 }
 
 export default function MediaPreview(props: IProps) {
-  const { removePreview, title, mediaPreview, alt } = props;
+  const { removePreview, mediaPreview, alt } = props;
 
   return (
-    <div className='m-b-30'>
-      <p>{title}</p>
+    <div className='preview-holder'>
+      {mediaPreview.map((item, index) => (
+        <div key={index} style={{ marginBottom: 50 }} >
+          <Image alt={alt} src={item} />
 
-      <div className='preview-holder'>
-        <Image alt={alt} src={mediaPreview} />
-      </div>
-
-      <button
-        type='button'
-        onClick={() => removePreview()}
-        className='m-10 btn btn-secondary'
-      >
-        {/* <i className='mdi mdi-close' /> */}
-        <X />
-      </button>
+          <button
+            type='button'
+            onClick={() => removePreview(index)}
+            className='btn btn-secondary'
+            style={{ padding: '0px 4px' }}
+          >
+            <X size={12} />
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

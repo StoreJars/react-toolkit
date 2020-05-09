@@ -12,7 +12,7 @@ export default function Image(props: IProps) {
   return (
     <img
       src={src}
-      style={{ height: 'auto', width: '200px', paddingBottom: '10px' }}
+      style={{ height: 'auto', width: '300px', paddingBottom: '10px', display: 'inherit' }}
       alt={alt || 'Storejars Image'}
     />
   )

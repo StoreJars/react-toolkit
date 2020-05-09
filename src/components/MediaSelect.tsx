@@ -1,29 +1,20 @@
 import React from 'react';
-import { Label, ErrorLabel } from './';
-
-const IMAGE_TYPES = '.png, .jpeg, .jpg';
 
 interface IProps {
-  label: any;
   onChange: any;
-  name: string;
-  error: string;
+  multiple?: boolean
 }
 
 export default function MediaSelect(props: IProps) {
-  const { onChange, label, name, error } = props;
+  const { onChange, multiple } = props;
 
   return (
-    <div>
-      <Label text={label} htmlFor={name} />
-      <input
-        type='file'
-        accept={IMAGE_TYPES}
-        className="form-control"
-        id='validatedCustomFile'
-        onChange={onChange}
-      />
-      <ErrorLabel message={error} />
-    </div>
+    <input
+      type='file'
+      multiple={multiple || false}
+      accept='image/*'
+      className="form-control"
+      onChange={onChange}
+    />
   );
 }
