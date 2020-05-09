@@ -14,7 +14,7 @@ export default class API {
     this.token = token
   }
 
-  public get$(route) {
+  public get$(route: string) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'GET',
@@ -22,7 +22,7 @@ export default class API {
     });
   }
 
-  public post$(route, data) {
+  public post$(route: string, data: object) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
@@ -31,16 +31,16 @@ export default class API {
     });
   }
 
-  public multipartPost$(route, data) {
+  public multipartPost$(route: string, data: any) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { 'Accept': 'application/json', Authorization: `Bearer ${this.token}` },
       body: data,
     });
   }
 
-  public patch$(route, data) {
+  public patch$(route: string, data: object) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PATCH',
@@ -49,7 +49,7 @@ export default class API {
     });
   }
 
-  public delete$(route, data) {
+  public delete$(route: string, data: object) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'DELETE',
