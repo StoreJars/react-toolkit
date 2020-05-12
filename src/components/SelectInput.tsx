@@ -3,7 +3,7 @@ import React from 'react';
 import { Label, ErrorLabel } from './';
 
 interface IProps {
-  label: string;
+  label?: string;
   placeholder: string;
   name: string;
   value: string | number;
