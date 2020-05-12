@@ -7,7 +7,7 @@
   "scripts": {
     "start": "tsc",
     "dev": "tsc --watch",
-    "prepare": "tsc",
+    "prepare": "rm -r dist && tsc",
     "test": "test"
   },
   "keywords": [
