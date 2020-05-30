@@ -1,7 +1,7 @@
 {
-  "name": "storejars-client-utils",
+  "name": "storejars-react-toolkit",
   "version": "1.0.0",
-  "description": "client side utilities for storejars e-commerce store",
+  "description": "client side utilities for storejars e-commerce store, powered by react & redux",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,7 +14,8 @@
     "react",
     "client",
     "utils",
-    "redux"
+    "redux",
+    "rxjs"
   ],
   "author": "Victor Akerele",
   "license": "ISC",
