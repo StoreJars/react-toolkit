@@ -1,6 +1,6 @@
 {
   "name": "storejars-client-utils",
-  "version": "1.2.4",
+  "version": "1.0.0",
   "description": "client side utilities for storejars e-commerce store",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
