@@ -13,12 +13,14 @@ const defaultState = {
 export const initialMetaState = {
   create: defaultState,
   read: defaultState,
+  readOne: defaultState,
+  patch: defaultState,
   update: defaultState,
   delete: defaultState
 };
 
-export const selectEntities = state => state.entities;
-export const selectEntitiesMeta = state => state.entitiesMeta;
+export const entities = state => state.entities;
+export const entitiesMeta = state => state.entitiesMeta;
 
 export function responder(response, context = '') {
   const NO_INTERNET_MESSAGE = 'No internet, please check your network connection and try again';
@@ -33,7 +35,7 @@ export function success$(action, response) {
   return of(action(response.data).success);
 }
 
-export function createMetaReducer(action: ActionState) {
+export function metaReducer(action: ActionState) {
   return (
     handleActions({
       [action.create.loading]: (state) => produce(state, draft => { draft.create.loading = true }),
@@ -49,6 +51,20 @@ export function createMetaReducer(action: ActionState) {
       // @ts-ignore
       [action.read.error]: (state, action$) => produce(state, draft => { draft.read.loading = false, draft.read.error = action$.payload }),
       [action.read.reset]: (state) => produce(state, draft => { draft.read = defaultState }),
+
+      [action.readOne.loading]: (state) => produce(state, draft => { draft.readOne.loading = true }),
+      // @ts-ignore
+      [action.readOne.success]: (state, action$) => produce(state, draft => { draft.readOne.loading = false, draft.readOne.success = action$.payload }),
+      // @ts-ignore
+      [action.readOne.error]: (state, action$) => produce(state, draft => { draft.readOne.loading = false, draft.readOne.error = action$.payload }),
+      [action.readOne.reset]: (state) => produce(state, draft => { draft.readOne = defaultState }),
+
+      [action.patch.loading]: (state) => produce(state, draft => { draft.read.loading = true }),
+      // @ts-ignore
+      [action.patch.success]: (state, action$) => produce(state, draft => { draft.patch.loading = false, draft.patch.success = action$.payload }),
+      // @ts-ignore
+      [action.patch.error]: (state, action$) => produce(state, draft => { draft.patch.loading = false, draft.patch.error = action$.payload }),
+      [action.patch.reset]: (state) => produce(state, draft => { draft.patch = defaultState }),
 
       [action.update.loading]: (state) => produce(state, draft => { draft.update.loading = true }),
       // @ts-ignore
@@ -68,4 +84,35 @@ export function createMetaReducer(action: ActionState) {
   );
 }
 
+export function gqlResponder(error) {
+  const NO_INTERNET_MESSAGE = 'No internet, please check your network connection and try again';
+  const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please try again later';
+  const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occured';
 
+  try {
+    const { graphQLErrors, networkError } = error;
+
+    if (networkError) {
+      console.log('Network Error', networkError);
+      return SERVICE_UNAVAILABLE_MESSAGE
+    }
+
+    if (graphQLErrors) {
+      const { code, response } = graphQLErrors[0].extensions;
+      console.log('GraphQL Error', response);
+
+      if (response) {
+        return response.body.data.constructor === Array ? response.body.data[0].message : response.body.data;
+      } else {
+        const error = code == 'ECONNREFUSED' ? SERVICE_UNAVAILABLE_MESSAGE : UNEXPECTED_ERROR_MESSAGE
+        return error;
+      }
+    }
+
+    return UNEXPECTED_ERROR_MESSAGE;
+  } catch (ex) {
+    console.log(ex);
+
+    return ex.message;
+  }
+}

@@ -1,33 +1,20 @@
-import config from '../config';
-import { windowExists } from '../globals';
+import { windowExists } from '../';
 
 /**
- * either you instantiate the class with your key pr use the already instantiated one
+ * default implemetation of locas storage
  */
-class LocalStorage {
-  private key;
+export default class LocalStorage {
+  private key: string;
 
-  constructor(key) {
+  constructor(key: string) {
     this.key = key;
   }
 
-  public set(data) {
-    const res = windowExists.localStorage.setItem(this.key, data);
-    return res;
-  }
-
   public get() {
-    try {
-      return windowExists.localStorage.getItem(this.key);
-    } catch (ex) {
-      console.log('unable to get cache 😭');
-      /**
-       * no data was found in local storage, 
-       * return empty token object and an empty cart object as the initial default state from server
-       */
-      return [];
-    }
+    return windowExists.localStorage.getItem(this.key);
   };
-}
 
-export default new LocalStorage(config.CART_STORAGE_KEY);
+  public set(data) {
+    return windowExists.localStorage.setItem(this.key, data);
+  }
+}

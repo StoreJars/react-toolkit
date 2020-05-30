@@ -6,7 +6,7 @@ import { Label, ErrorLabel } from './';
 interface IProps {
   label: string;
   placeholder: string;
-  type?: 'email' | 'password' | 'text' | 'number';
+  type?: 'email' | 'password' | 'text' | 'number' | 'date' | 'tel';
   name: string;
   value: string | number;
   required?: boolean;

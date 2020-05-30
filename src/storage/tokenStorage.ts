@@ -1,14 +1,14 @@
-import config from '../config';
-import { windowExists } from '../globals';
+import { windowExists } from '../';
+
 
 /**
- * either you instantiate the class with your key pr use the already instantiated one
+ * this encrypts data store and decrypts on retrieval
  */
-class TokenStorage {
-  private key;
+export default class TokenStorage {
+  private key: string;
   private salt: string;
 
-  constructor(key) {
+  constructor(key: string) {
     this.key = key;
     this.salt = 'A~fe`;(-';
   }
@@ -37,8 +37,7 @@ class TokenStorage {
   }
 
   public set(data) {
-    const res = windowExists.localStorage.setItem(this.key, this.encrypt(data));
-    return res;
+    return windowExists.localStorage.setItem(this.key, this.encrypt(data));
   }
 
   public get() {
@@ -55,5 +54,3 @@ class TokenStorage {
     }
   };
 }
-
-export default new TokenStorage(config.TOKEN_STORAGE_KEY);

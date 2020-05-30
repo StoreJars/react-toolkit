@@ -1,7 +1,7 @@
 import { createAction as RACreateAction } from 'redux-actions';
 
 interface IState {
-  loading: string | boolean | object | any;
+  loading: boolean | object | any;
   success: string | boolean | object | any;
   error: string | boolean | object | any;
   reset: string | boolean | object | any;
@@ -12,8 +12,12 @@ export default class ActionState {
 
   public create: IState;
   public read: IState;
+  public readOne: IState;
+  public patch: IState;
   public update: IState;
   public delete: IState;
+
+  // TODO, add a readone and a patch method
 
   /**
    * @param {*} namespace, action namespace
@@ -34,6 +38,20 @@ export default class ActionState {
       success: `${this.namespace}/READ/SUCCESS`,
       error: `${this.namespace}/READ/ERROR`,
       reset: `${this.namespace}/READ/RESET`,
+    };
+
+    this.readOne = {
+      loading: `${this.namespace}/READONE/LOADING`,
+      success: `${this.namespace}/READONE/SUCCESS`,
+      error: `${this.namespace}/READONE/ERROR`,
+      reset: `${this.namespace}/READONE/RESET`,
+    };
+
+    this.patch = {
+      loading: `${this.namespace}/PATCH/LOADING`,
+      success: `${this.namespace}/PATCH/SUCCESS`,
+      error: `${this.namespace}/PATCH/ERROR`,
+      reset: `${this.namespace}/PATCH/RESET`,
     };
 
     this.update = {
@@ -66,6 +84,24 @@ export default class ActionState {
       success: RACreateAction(this.read.success)(payload),
       error: RACreateAction(this.read.error)(payload),
       reset: RACreateAction(this.read.reset)(payload),
+    }
+  }
+
+  public readOneAction(payload) {
+    return {
+      loading: RACreateAction(this.readOne.loading)(payload),
+      success: RACreateAction(this.readOne.success)(payload),
+      error: RACreateAction(this.readOne.error)(payload),
+      reset: RACreateAction(this.readOne.reset)(payload),
+    }
+  }
+
+  public patchAction(payload) {
+    return {
+      loading: RACreateAction(this.patch.loading)(payload),
+      success: RACreateAction(this.patch.success)(payload),
+      error: RACreateAction(this.patch.error)(payload),
+      reset: RACreateAction(this.patch.reset)(payload),
     }
   }
 

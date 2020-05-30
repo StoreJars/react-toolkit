@@ -10,6 +10,7 @@ interface IProps {
 export default function Button(props: IProps) {
   const { isSubmitting, text, type } = props;
 
+  //TODO, this should use inline styles at worst and be overwritable by the outside
   return (
     <div className="mt-3">
       <button
