@@ -87,7 +87,7 @@ export function metaReducer(action: ActionState) {
 export function gqlResponder(error) {
   const NO_INTERNET_MESSAGE = 'No internet, please check your network connection and try again';
   const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please try again later';
-  const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occured';
+  const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occurred';
 
   try {
     const { graphQLErrors, networkError } = error;
@@ -111,8 +111,6 @@ export function gqlResponder(error) {
 
     return UNEXPECTED_ERROR_MESSAGE;
   } catch (ex) {
-    console.log(ex);
-
     return ex.message;
   }
 }
