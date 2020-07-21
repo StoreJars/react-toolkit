@@ -1,7 +1,7 @@
 import { windowExists } from '../';
 
 /**
- * default implemetation of locas storage
+ * default implementation of local storage
  */
 export default class LocalStorage {
   private key: string;
@@ -12,7 +12,7 @@ export default class LocalStorage {
 
   public get() {
     return windowExists.localStorage.getItem(this.key);
-  };
+  }
 
   public set(data) {
     return windowExists.localStorage.setItem(this.key, data);

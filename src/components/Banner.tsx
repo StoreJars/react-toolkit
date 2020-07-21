@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface IProps {
@@ -11,24 +10,25 @@ function Banner(props: IProps) {
   const { message, reset, type } = props;
 
   return (
-    <div className={`alert alert-${type} alert-dismissible fade show`} role='alert'>
-      <button type='button' className='close' data-dismiss='alert' aria-label='Close' onClick={reset}>
-        <span aria-hidden='true'>×</span>
+    <div className={`alert alert-${type} alert-dismissible fade show`} role="alert">
+      <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={reset}>
+        <span aria-hidden="true">×</span>
       </button>
       <strong>!</strong> {message || ''}.
-  </div>
+    </div>
   );
 }
 
 function Error(props: IProps) {
   // TODO use this as red color #fbb
-  return <Banner {...props} type='danger' />
+  return <Banner {...props} type="danger" />;
 }
 
 function Success(props: IProps) {
-  return <Banner {...props} type='success' />
+  return <Banner {...props} type="success" />;
 }
 
 export default {
-  Error, Success
-}
+  Error,
+  Success,
+};

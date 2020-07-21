@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { TextInput } from './';
 
@@ -25,5 +24,5 @@ export default function PasswordInput(props: IProps) {
       error={error}
       required
     />
-  )
+  );
 }

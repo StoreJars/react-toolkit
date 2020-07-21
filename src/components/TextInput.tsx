@@ -1,7 +1,5 @@
-
 import React from 'react';
 import { Label, ErrorLabel } from './';
-
 
 interface IProps {
   label: string;
@@ -11,7 +9,7 @@ interface IProps {
   value: string | number;
   required?: boolean;
   onChange: any;
-  error: string
+  error: string;
 }
 
 export default function TextInput(props: IProps) {
@@ -33,5 +31,5 @@ export default function TextInput(props: IProps) {
       />
       <ErrorLabel message={error} />
     </div>
-  )
+  );
 }

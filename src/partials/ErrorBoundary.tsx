@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
-type props = {};
-type state = { hasError: boolean, error: string, info: any };
+type state = { hasError: boolean; error: string; info: any };
 
-export default class ErrorBoundary extends Component<props, state> {
+export default class ErrorBoundary extends Component<unknown, state> {
   // tslint:disable-next-line: member-access
   static getDerivedStateFromError() {
     return { hasError: true };

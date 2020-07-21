@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface IProps {
@@ -15,5 +14,5 @@ export default function Image(props: IProps) {
       style={{ height: 'auto', width: '300px', paddingBottom: '10px', display: 'inherit' }}
       alt={alt || 'Storejars Image'}
     />
-  )
+  );
 }

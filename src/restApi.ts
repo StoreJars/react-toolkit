@@ -2,7 +2,7 @@ import { ajax } from './operators';
 
 const headers = {
   'Content-Type': 'application/json',
-  'Accept': 'application/json',
+  Accept: 'application/json',
 };
 
 export default class API {
@@ -10,8 +10,8 @@ export default class API {
   private token: string;
 
   constructor(url: string, token: string | null) {
-    this.URL = url
-    this.token = token
+    this.URL = url;
+    this.token = token;
   }
 
   public get$(route: string) {
@@ -22,7 +22,7 @@ export default class API {
     });
   }
 
-  public post$(route: string, data: object) {
+  public post$(route: string, data: any) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
@@ -35,12 +35,12 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { 'Accept': 'application/json', Authorization: `Bearer ${this.token}` },
+      headers: { Accept: 'application/json', Authorization: `Bearer ${this.token}` },
       body: data,
     });
   }
 
-  public patch$(route: string, data: object) {
+  public patch$(route: string, data: any) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PATCH',
@@ -49,7 +49,7 @@ export default class API {
     });
   }
 
-  public delete$(route: string, data: object) {
+  public delete$(route: string, data: any) {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'DELETE',
@@ -58,4 +58,3 @@ export default class API {
     });
   }
 }
-

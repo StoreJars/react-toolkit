@@ -26,5 +26,5 @@ export default function TextArea(props: IProps) {
       />
       <ErrorLabel message={error} />
     </div>
-  )
+  );
 }

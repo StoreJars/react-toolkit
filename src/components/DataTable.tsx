@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDatatable from '@ashvin27/react-datatable';
 
 const config = {
@@ -8,7 +8,7 @@ const config = {
     excel: true,
     print: true,
     extra: true,
-  }
+  },
 };
 
 const extraButtons = [
@@ -26,18 +26,11 @@ const extraButtons = [
 
 interface IProps {
   records: any;
-  columns: any
+  columns: any;
 }
 
-export default function (props: IProps) {
+export default function DataTable(props: IProps) {
   const { records, columns } = props;
 
-  return (
-    <ReactDatatable
-      config={config}
-      records={records}
-      columns={columns}
-      extraButtons={extraButtons}
-    />
-  )
+  return <ReactDatatable config={config} records={records} columns={columns} extraButtons={extraButtons} />;
 }

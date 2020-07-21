@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Label, ErrorLabel } from './';
 
@@ -30,17 +29,27 @@ export default function SelectInput(props: IProps) {
         value={value}
         required={required || false}
       >
-        <option value=''>{placeholder}</option>
-        {data.map(item => {
+        <option value="">{placeholder}</option>
+        {data.map((item) => {
           if (labelKey && valueKey) {
-            return <option key={item[valueKey]} value={item[valueKey]}> {item[labelKey]} </option>
+            return (
+              <option key={item[valueKey]} value={item[valueKey]}>
+                {' '}
+                {item[labelKey]}{' '}
+              </option>
+            );
           } else {
-            return <option key={item} value={item}> {item} </option>
+            return (
+              <option key={item} value={item}>
+                {' '}
+                {item}{' '}
+              </option>
+            );
           }
         })}
       </select>
 
       <ErrorLabel message={error} />
     </div>
-  )
+  );
 }

@@ -4,7 +4,7 @@ export default function AppRoute({ component: Component, layout: Layout, router:
   return (
     <Route
       {...rest}
-      render={props => (
+      render={(props) => (
         <Layout>
           <Component {...props} />
         </Layout>

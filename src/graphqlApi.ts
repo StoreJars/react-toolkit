@@ -16,15 +16,15 @@ export default class API {
     this.URL = url;
     this.token = token;
     /**
- * If on server, mock out mutate and client functions
- */
+     * If on server, mock out mutate and client functions
+     */
     this.client = new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors) {
             graphQLErrors.forEach((message, locations, path) => {
               console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-            })
+            });
           }
           if (networkError) {
             console.log(`[Network error]: ${networkError}`);
@@ -33,24 +33,30 @@ export default class API {
         createUploadLink({
           uri: this.URL,
           credentials: 'same-origin',
-          headers: { Authorization: this.token }
-        })
+          headers: { Authorization: this.token },
+        }),
       ]),
-      cache: new InMemoryCache()
-    })
+      cache: new InMemoryCache(),
+    });
   }
 
   public query$(query: any, payload = {}) {
-    return from(this.client.query({
-      query: gql`${query}`,
-      variables: { input: payload },
-    }));
+    return from(
+      this.client.query({
+        query: gql`
+          ${query}
+        `,
+        variables: { input: payload },
+      }),
+    );
   }
 
-  public mutate$(query: any, payload: object) {
-    return from(this.client.mutate({
-      mutation: query,
-      variables: { input: payload },
-    }));
+  public mutate$(query: any, payload: any) {
+    return from(
+      this.client.mutate({
+        mutation: query,
+        variables: { input: payload },
+      }),
+    );
   }
 }

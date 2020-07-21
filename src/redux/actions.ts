@@ -1,12 +1,12 @@
 import { createAction as RACreateAction } from 'redux-actions';
 
 interface IState {
-  loading: boolean | object | any;
-  success: string | boolean | object | any;
-  error: string | boolean | object | any;
-  reset: string | boolean | object | any;
+  loading: boolean | any;
+  success: string | boolean | any;
+  error: string | boolean | any;
+  reset: string | boolean | any;
 }
-// TODO properly docuemnt this class, very important
+// TODO properly document this class, very important
 export default class ActionState {
   public namespace;
 
@@ -17,11 +17,9 @@ export default class ActionState {
   public update: IState;
   public delete: IState;
 
-  // TODO, add a readone and a patch method
-
   /**
    * @param {*} namespace, action namespace
-   * intialize the class with  a proper entitiy name
+   * initialize the class with  a proper entity name
    */
   constructor(namespace) {
     this.namespace = namespace;
@@ -75,7 +73,7 @@ export default class ActionState {
       success: RACreateAction(this.create.success)(payload),
       error: RACreateAction(this.create.error)(payload),
       reset: RACreateAction(this.create.reset)(payload),
-    }
+    };
   }
 
   public readAction(payload) {
@@ -84,7 +82,7 @@ export default class ActionState {
       success: RACreateAction(this.read.success)(payload),
       error: RACreateAction(this.read.error)(payload),
       reset: RACreateAction(this.read.reset)(payload),
-    }
+    };
   }
 
   public readOneAction(payload) {
@@ -93,7 +91,7 @@ export default class ActionState {
       success: RACreateAction(this.readOne.success)(payload),
       error: RACreateAction(this.readOne.error)(payload),
       reset: RACreateAction(this.readOne.reset)(payload),
-    }
+    };
   }
 
   public patchAction(payload) {
@@ -102,7 +100,7 @@ export default class ActionState {
       success: RACreateAction(this.patch.success)(payload),
       error: RACreateAction(this.patch.error)(payload),
       reset: RACreateAction(this.patch.reset)(payload),
-    }
+    };
   }
 
   public updateAction(payload) {
@@ -111,7 +109,7 @@ export default class ActionState {
       success: RACreateAction(this.update.success)(payload),
       error: RACreateAction(this.update.error)(payload),
       reset: RACreateAction(this.update.reset)(payload),
-    }
+    };
   }
 
   public deleteAction(payload) {
@@ -120,6 +118,6 @@ export default class ActionState {
       success: RACreateAction(this.delete.success)(payload),
       error: RACreateAction(this.delete.error)(payload),
       reset: RACreateAction(this.delete.reset)(payload),
-    }
+    };
   }
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import { AppleSpinner } from './';
 
 interface IProps {
-  isSubmitting: boolean
-  text: string
-  type?: 'submit' | 'button' | 'reset'
+  isSubmitting: boolean;
+  text: string;
+  type?: 'submit' | 'button' | 'reset';
 }
 
 export default function Button(props: IProps) {
@@ -22,13 +22,12 @@ export default function Button(props: IProps) {
         {isSubmitting ? (
           <span>
             <AppleSpinner />
-            <span style={{ marginLeft: 10, display: 'inline', fontFamily: 'inherit' }}>
-              Loading...
-           </span>
+            <span style={{ marginLeft: 10, display: 'inline', fontFamily: 'inherit' }}>Loading...</span>
           </span>
-        ) : text}
-
+        ) : (
+          text
+        )}
       </button>
     </div>
-  )
+  );
 }
