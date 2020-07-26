@@ -10,7 +10,7 @@ const defaultState = {
   success: false,
 };
 
-export const initialMetaState = {
+export const initialMetaState: any = {
   create: defaultState,
   read: defaultState,
   readOne: defaultState,
@@ -45,104 +45,134 @@ export function metaReducer(action: ActionState) {
       [action.create.loading]: (state) =>
         produce(state, (draft) => {
           draft.create.loading = true;
+          return draft;
         }),
-
       [action.create.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.create.loading = false), (draft.create.success = action$.payload);
+          draft.create.loading = false;
+          draft.create.success = action$.payload;
+          return draft;
         }),
       [action.create.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.create.loading = false), (draft.create.error = action$.payload);
+          draft.create.loading = false;
+          draft.create.error = action$.payload;
+          return draft;
         }),
       [action.create.reset]: (state) =>
         produce(state, (draft) => {
           draft.create = defaultState;
+          return draft;
         }),
-
       [action.read.loading]: (state) =>
         produce(state, (draft) => {
           draft.read.loading = true;
+          return draft;
         }),
       [action.read.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.read.loading = false), (draft.read.success = action$.payload);
+          draft.read.loading = false;
+          draft.read.success = action$.payload;
+          return draft;
         }),
       [action.read.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.read.loading = false), (draft.read.error = action$.payload);
+          draft.read.loading = false;
+          draft.read.error = action$.payload;
+          return draft;
         }),
       [action.read.reset]: (state) =>
         produce(state, (draft) => {
           draft.read = defaultState;
+          return draft;
         }),
-
       [action.readOne.loading]: (state) =>
         produce(state, (draft) => {
           draft.readOne.loading = true;
+          return draft;
         }),
       [action.readOne.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.readOne.loading = false), (draft.readOne.success = action$.payload);
+          draft.readOne.loading = false;
+          draft.readOne.success = action$.payload;
+          return draft;
         }),
       [action.readOne.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.readOne.loading = false), (draft.readOne.error = action$.payload);
+          draft.readOne.loading = false;
+          draft.readOne.error = action$.payload;
+          return draft;
         }),
       [action.readOne.reset]: (state) =>
         produce(state, (draft) => {
           draft.readOne = defaultState;
+          return draft;
         }),
-
       [action.patch.loading]: (state) =>
         produce(state, (draft) => {
           draft.read.loading = true;
+          return draft;
         }),
       [action.patch.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.patch.loading = false), (draft.patch.success = action$.payload);
+          draft.patch.loading = false;
+          draft.patch.success = action$.payload;
+          return draft;
         }),
       [action.patch.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.patch.loading = false), (draft.patch.error = action$.payload);
+          draft.patch.loading = false;
+          draft.patch.error = action$.payload;
+          return draft;
         }),
       [action.patch.reset]: (state) =>
         produce(state, (draft) => {
           draft.patch = defaultState;
+          return draft;
         }),
-
       [action.update.loading]: (state) =>
         produce(state, (draft) => {
           draft.update.loading = true;
+          return draft;
         }),
       [action.update.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.update.loading = false), (draft.update.success = action$.payload);
+          draft.update.loading = false;
+          draft.update.success = action$.payload;
+          return draft;
         }),
       [action.update.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.update.loading = false), (draft.update.error = action$.payload);
+          draft.update.loading = false;
+          draft.update.error = action$.payload;
+          return draft;
         }),
       [action.update.reset]: (state) =>
         produce(state, (draft) => {
           draft.update = defaultState;
+          return draft;
         }),
-
       [action.delete.loading]: (state) =>
         produce(state, (draft) => {
           draft.delete.loading = true;
+          return draft;
         }),
       [action.delete.success]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.delete.loading = false), (draft.delete.success = action$.payload);
+          draft.delete.loading = false;
+          draft.delete.success = action$.payload;
+          return draft;
         }),
       [action.delete.error]: (state, action$) =>
         produce(state, (draft) => {
-          (draft.delete.loading = false), (draft.delete.error = action$.payload);
+          draft.delete.loading = false;
+          draft.delete.error = action$.payload;
+          return draft;
         }),
       [action.delete.reset]: (state) =>
         produce(state, (draft) => {
           draft.delete = defaultState;
+          return draft;
         }),
     },
     initialMetaState,

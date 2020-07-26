@@ -1,10 +1,10 @@
 import { createAction as RACreateAction } from 'redux-actions';
 
 interface IState {
-  loading: boolean | any;
-  success: string | boolean | any;
-  error: string | boolean | any;
-  reset: string | boolean | any;
+  loading: any;
+  success: any;
+  error: any;
+  reset: any;
 }
 // TODO properly document this class, very important
 export default class ActionState {

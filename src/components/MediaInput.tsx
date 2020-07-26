@@ -7,7 +7,7 @@ import { MediaSelect, MediaPreview, Label, ErrorLabel } from './';
 interface IProps {
   label: string;
   alt: string;
-  getFile: (args) => any;
+  getFile: any;
   error: string;
   multiple?: boolean;
 }
@@ -16,7 +16,7 @@ interface IState {
   mediaPreview: any;
 }
 
-export default class MediaUpload extends Component<IProps, IState> {
+export default class MediaInput extends Component<IProps, IState> {
   constructor(props) {
     super(props);
 
