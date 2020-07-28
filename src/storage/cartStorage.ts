@@ -11,10 +11,11 @@ export default class LocalStorage {
   }
 
   public get() {
-    return windowExists.localStorage.getItem(this.key);
+    const data = windowExists.localStorage.getItem(this.key);
+    return JSON.parse(data);
   }
 
   public set(data) {
-    return windowExists.localStorage.setItem(this.key, data);
+    return windowExists.localStorage.setItem(this.key, JSON.stringify(data));
   }
 }

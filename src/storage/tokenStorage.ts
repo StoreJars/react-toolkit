@@ -39,7 +39,6 @@ export default class TokenStorage {
       const data = windowExists.localStorage.getItem(this.key);
       return this.decrypt(data);
     } catch (ex) {
-      console.log('unable to get cache 😭');
       /**
        * no data was found in local storage,
        * return empty token object and an empty cart object as the initial default state from server
