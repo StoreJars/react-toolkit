@@ -1,5 +1,5 @@
 import React from 'react';
-import X from 'react-feather/dist/icons/x';
+import { X } from 'react-feather';
 
 import { Image } from './';
 

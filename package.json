@@ -36,7 +36,7 @@
     "redux-observable": "^1.2.0",
     "reselect": "^4.0.0",
     "rxjs": "^6.5.4",
-    "storejars-react-datatable": "^1.5.1"
+    "storejars-react-datatable": "^1.5.3"
   },
   "devDependencies": {
     "@types/apollo-upload-client": "^8.1.3",

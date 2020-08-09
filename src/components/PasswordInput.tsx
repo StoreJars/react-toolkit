@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Eye from 'react-feather/dist/icons/eye';
-import EyeOff from 'react-feather/dist/icons/eye-off';
+import { Eye, EyeOff } from 'react-feather';
 
 import { TextInput } from './';
 
@@ -10,6 +9,7 @@ interface IProps {
   name: string;
   value: string;
   onChange: any;
+  onBlur: any;
   error: string;
 }
 
@@ -30,7 +30,7 @@ export default class PasswordInput extends Component<IProps, IState> {
   };
 
   render() {
-    const { placeholder, label, onChange, name, value, error } = this.props;
+    const { placeholder, label, onChange, onBlur, name, value, error } = this.props;
     const { passwordVisible } = this.state;
 
     return (
@@ -40,6 +40,7 @@ export default class PasswordInput extends Component<IProps, IState> {
         </i>
         <TextInput
           onChange={onChange}
+          onBlur={onBlur}
           name={name}
           placeholder={placeholder}
           label={label}
