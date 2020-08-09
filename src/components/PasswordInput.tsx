@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Eye from 'react-feather/dist/icons/eye';
 import EyeOff from 'react-feather/dist/icons/eye-off';
 
@@ -13,31 +13,42 @@ interface IProps {
   error: string;
 }
 
-export default function PasswordInput(props: IProps) {
-  const { placeholder, label, onChange, name, value, error } = props;
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  console.log('here');
+interface IState {
+  passwordVisible: boolean;
+}
 
-  return (
-    <div>
-      <TextInput
-        onChange={onChange}
-        name={name}
-        placeholder={placeholder}
-        label={label}
-        type={passwordVisible ? 'text' : 'password'}
-        value={value}
-        error={error}
-        required
-      />
+export default class PasswordInput extends Component<IProps, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      passwordVisible: false,
+    };
+  }
 
-      <span
-        // className={`fa ${passwordVisible ? 'fa-eye' : 'fa-eye-slash'}`}
-        style={{ position: 'absolute', top: '45px', right: '5%' }}
-        onClick={() => setPasswordVisible(!passwordVisible)}
-      >
-        {passwordVisible ? <Eye /> : <EyeOff />}
-      </span>
-    </div>
-  );
+  togglePasswordVisibility = () => {
+    this.setState({ passwordVisible: !this.state.passwordVisible });
+  };
+
+  render() {
+    const { placeholder, label, onChange, name, value, error } = this.props;
+    const { passwordVisible } = this.state;
+
+    return (
+      <div>
+        <i style={{ position: 'absolute', padding: '2.2rem', right: '4%' }} onClick={this.togglePasswordVisibility}>
+          {passwordVisible ? <Eye size={15} color="grey" /> : <EyeOff size={15} color="grey" />}
+        </i>
+        <TextInput
+          onChange={onChange}
+          name={name}
+          placeholder={placeholder}
+          label={label}
+          type={passwordVisible ? 'text' : 'password'}
+          value={value}
+          error={error}
+          required
+        />
+      </div>
+    );
+  }
 }
