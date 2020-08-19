@@ -10,6 +10,7 @@ interface IProps {
   getFile: any;
   error: string;
   multiple?: boolean;
+  previewStyle?: any;
 }
 
 interface IState {
@@ -84,7 +85,7 @@ export default class MediaInput extends Component<IProps, IState> {
 
     if (totalSize > 2000000) {
       window.alert('Image is too large, images should be less than 2MB');
-      throw new Error('file too large');
+      return '';
     }
 
     getFile(data);
@@ -92,7 +93,7 @@ export default class MediaInput extends Component<IProps, IState> {
 
   public render() {
     const { mediaPreview } = this.state;
-    const { label, alt, error, multiple } = this.props;
+    const { label, alt, error, multiple, previewStyle } = this.props;
 
     return (
       <div style={{ marginTop: '20px', marginBottom: '50px' }}>
@@ -101,7 +102,12 @@ export default class MediaInput extends Component<IProps, IState> {
             <Label text={label} htmlFor={label} />
 
             {mediaPreview.length > 0 && (
-              <MediaPreview removePreview={this.removeMediaPreview} mediaPreview={mediaPreview} alt={alt} />
+              <MediaPreview
+                removePreview={this.removeMediaPreview}
+                mediaPreview={mediaPreview}
+                alt={alt}
+                previewStyle={previewStyle}
+              />
             )}
 
             <MediaSelect onChange={this.handleChange} multiple={multiple} />
