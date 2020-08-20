@@ -13,7 +13,8 @@ export const windowExists =
         },
         localStorage: {
           setItem: (key: string, value: string) => ({ key, value }),
-          getItem: (key: string) => JSON.stringify({ token: '', key }),
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          getItem: (key: string) => JSON.stringify([]),
         },
       };
 
