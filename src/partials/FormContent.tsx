@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BusinessTypesList({ children, title, formTitle }) {
+export default function FormContent({ children, title, formTitle }) {
   return (
     <div className="page-content">
       <nav className="page-breadcrumb">

@@ -36,15 +36,13 @@ export default function SelectInput(props: IProps) {
           if (labelKey && valueKey) {
             return (
               <option key={item[valueKey]} value={item[valueKey]}>
-                {' '}
-                {item[labelKey]}{' '}
+                {item[labelKey]}
               </option>
             );
           } else {
             return (
               <option key={item} value={item}>
-                {' '}
-                {item}{' '}
+                {item}
               </option>
             );
           }

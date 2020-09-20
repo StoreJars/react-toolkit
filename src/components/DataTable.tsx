@@ -5,24 +5,13 @@ const config = {
   page_size: 10,
   length_menu: [10, 20, 50],
   button: {
-    excel: true,
-    print: true,
-    extra: true,
+    excel: false,
+    print: false,
+    extra: false,
   },
 };
 
-const extraButtons = [
-  // {
-  //   className: "btn btn-primary buttons-pdf",
-  //   title: "Export Test",
-  //   children: [
-  //     <span>
-  //       <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
-  //     </span>
-  //   ],
-  //   onClick: (event) => { },
-  // },
-];
+const extraButtons = [];
 
 interface IProps {
   records: any;
