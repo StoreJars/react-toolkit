@@ -13,6 +13,8 @@ export { default as RestApi } from './restApi';
 
 export { default as imageValidator } from './imageValidator';
 
+export { formatPrice, calculateTotal, resizeImage, basePath, FilterProducts, getProductId, productLink } from './utils';
+
 export function errorParser(errors, touched, key) {
   return errors[key] && touched[key] && errors[key];
 }
