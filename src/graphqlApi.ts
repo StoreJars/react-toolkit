@@ -59,4 +59,20 @@ export default class API {
       }),
     );
   }
+
+  public query(query: any, payload = {}) {
+    return this.client.query({
+      query: gql`
+        ${query}
+      `,
+      variables: { input: payload },
+    });
+  }
+
+  public mutate(query: any, payload: any) {
+    return this.client.mutate({
+      mutation: query,
+      variables: { input: payload },
+    });
+  }
 }
