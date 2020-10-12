@@ -49,6 +49,15 @@ export default class API {
     });
   }
 
+  public put$(route: string, data: any) {
+    return ajax({
+      url: `${this.URL}${route}`,
+      method: 'PUT',
+      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      body: data,
+    });
+  }
+
   public delete$(route: string, data: any) {
     return ajax({
       url: `${this.URL}${route}`,
