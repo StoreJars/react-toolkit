@@ -11,10 +11,11 @@ interface IProps {
   onChange: any;
   onBlur: any;
   error: string;
+  readonly?: boolean;
 }
 
 export default function TextInput(props: IProps) {
-  const { placeholder, label, type, onChange, onBlur, name, value, required, error } = props;
+  const { placeholder, label, type, onChange, onBlur, name, value, required, error, readonly } = props;
 
   return (
     <div className="form-group">
@@ -31,6 +32,7 @@ export default function TextInput(props: IProps) {
         value={value}
         required={required || false}
         style={error && { borderColor: 'red' }}
+        readOnly={readonly}
       />
       <ErrorLabel message={error} />
     </div>
