@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDatatable from 'storejars-react-datatable';
 
 const config = {
-  page_size: 10,
-  length_menu: [10, 20, 50],
+  page_size: 50,
+  length_menu: [50, 100, 150, 200],
   button: {
     excel: false,
     print: false,
