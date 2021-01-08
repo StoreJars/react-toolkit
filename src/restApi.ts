@@ -18,7 +18,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'GET',
-      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
     });
   }
 
@@ -26,7 +26,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
       body: data,
     });
   }
@@ -35,7 +35,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { Accept: 'application/json', Authorization: `Bearer ${this.token}` },
+      headers: { Accept: 'application/json', ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
       body: data,
     });
   }
@@ -44,7 +44,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PATCH',
-      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
       body: data,
     });
   }
@@ -53,7 +53,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PUT',
-      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
       body: data,
     });
   }
@@ -62,7 +62,7 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'DELETE',
-      headers: { ...headers, Authorization: `Bearer ${this.token}` },
+      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
       body: data,
     });
   }
