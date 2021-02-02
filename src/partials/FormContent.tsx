@@ -1,13 +1,20 @@
 import React from 'react';
 
-export default function FormContent({ children, title, formTitle }) {
+interface IProps {
+  parentLink: any;
+  children: any;
+  title: string;
+  formTitle: string;
+}
+
+export default function FormContent(props: IProps) {
+  const { parentLink, title, formTitle, children } = props;
+
   return (
     <div className="page-content">
       <nav className="page-breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item">
-            <a href="#">Forms</a>
-          </li>
+          <li className="breadcrumb-item">{parentLink}</li>
           <li className="breadcrumb-item active" aria-current="page">
             {title}
           </li>
