@@ -110,7 +110,7 @@ export function metaReducer(action: ActionState) {
         }),
       [action.patch.loading]: (state) =>
         produce(state, (draft) => {
-          draft.read.loading = true;
+          draft.patch.loading = true;
           return draft;
         }),
       [action.patch.success]: (state, action$) =>
