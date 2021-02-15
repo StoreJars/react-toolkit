@@ -7,62 +7,74 @@ const headers = {
 
 export default class API {
   private URL: string;
-  private token: string;
+  private tokenStorage: any;
 
-  constructor(url: string, token: string | null) {
+  constructor(url: string, tokenStorage: any) {
     this.URL = url;
-    this.token = token;
+    this.tokenStorage = tokenStorage;
   }
 
   public get$(route: string) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'GET',
-      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
     });
   }
 
   public post$(route: string, data: any) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
       body: data,
     });
   }
 
   public multipartPost$(route: string, data: any) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { Accept: 'application/json', ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { Accept: 'application/json', ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
       body: data,
     });
   }
 
   public patch$(route: string, data: any) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PATCH',
-      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
       body: data,
     });
   }
 
   public put$(route: string, data: any) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'PUT',
-      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
       body: data,
     });
   }
 
   public delete$(route: string, data: any) {
+    const { token } = this.tokenStorage.get();
+
     return ajax({
       url: `${this.URL}${route}`,
       method: 'DELETE',
-      headers: { ...headers, ...(this.token && { Authorization: `Bearer ${this.token}` }) },
+      headers: { ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
       body: data,
     });
   }

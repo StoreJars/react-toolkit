@@ -9,16 +9,15 @@ import { from } from './operators';
 
 export default class API {
   private URL: string;
-  private client;
-  private token: string | null;
+  private tokenStorage: any;
 
-  constructor(url: string, token: string | null) {
+  constructor(url: string, tokenStorage: any) {
     this.URL = url;
-    this.token = token;
-    /**
-     * If on server, mock out mutate and client functions
-     */
-    this.client = new ApolloClient({
+    this.tokenStorage = tokenStorage;
+  }
+
+  private client(token) {
+    return new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors) {
@@ -33,7 +32,7 @@ export default class API {
         createUploadLink({
           uri: this.URL,
           credentials: 'same-origin',
-          headers: { Authorization: this.token },
+          headers: { Authorization: token },
         }),
       ]),
       cache: new InMemoryCache(),
@@ -41,8 +40,10 @@ export default class API {
   }
 
   public query$(query: any, payload = {}) {
+    const { token } = this.tokenStorage.get();
+
     return from(
-      this.client.query({
+      this.client(token).query({
         query: gql`
           ${query}
         `,
@@ -52,8 +53,10 @@ export default class API {
   }
 
   public mutate$(query: any, payload: any) {
+    const { token } = this.tokenStorage.get();
+
     return from(
-      this.client.mutate({
+      this.client(token).mutate({
         mutation: query,
         variables: { input: payload },
       }),
@@ -61,7 +64,9 @@ export default class API {
   }
 
   public query(query: any, payload = {}) {
-    return this.client.query({
+    const { token } = this.tokenStorage.get();
+
+    return this.client(token).query({
       query: gql`
         ${query}
       `,
@@ -70,7 +75,9 @@ export default class API {
   }
 
   public mutate(query: any, payload: any) {
-    return this.client.mutate({
+    const { token } = this.tokenStorage.get();
+
+    return this.client(token).mutate({
       mutation: query,
       variables: { input: payload },
     });
