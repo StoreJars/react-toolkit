@@ -43,7 +43,7 @@ export default class TokenStorage {
        * no data was found in local storage,
        * return empty token object and an empty cart object as the initial default state from server
        */
-      return { token: '', cart: [] };
+      return { token: '', expires: '', cart: [] };
     }
   }
 }
