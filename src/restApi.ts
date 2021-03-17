@@ -41,7 +41,11 @@ export default class API {
     return ajax({
       url: `${this.URL}${route}`,
       method: 'POST',
-      headers: { Accept: 'application/json', ...headers, ...(token && { Authorization: `Bearer ${token}` }) },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
       body: data,
     });
   }
