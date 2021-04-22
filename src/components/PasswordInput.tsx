@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Eye from 'react-feather/dist/icons/eye';
-import EyeOff from 'react-feather/dist/icons/eye-off';
+import { Eye, EyeOff } from 'react-feather';
 
 import TextInput from './TextInput';
 
