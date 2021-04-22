@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Eye, EyeOff } from 'react-feather';
+import Eye from 'react-feather/dist/icons/eye';
+import EyeOff from 'react-feather/dist/icons/eye-off';
 
-import { TextInput } from './';
+import TextInput from './TextInput';
 
 interface IProps {
   label: string;

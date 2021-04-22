@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppleSpinner } from './';
+import { AppleSpinner } from './Spinners';
 
 interface IProps {
   isSubmitting: boolean;

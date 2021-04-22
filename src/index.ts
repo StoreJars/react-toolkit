@@ -5,7 +5,10 @@ export { default as gql } from 'graphql-tag';
 export { default as TokenStorage } from './storage/TokenStorage';
 export { default as CartStorage } from './storage/CartStorage';
 
-export { entities, entitiesMeta, metaReducer as metas, responder, gqlResponder } from './redux/state';
+export { entities, entitiesMeta, metaReducer as metas, responder } from './redux/state';
+
+export { default as gqlResponder } from './graphqlResponder';
+
 export { default as Actions } from './redux/actions';
 
 export { default as GraphqlApi } from './graphqlApi';

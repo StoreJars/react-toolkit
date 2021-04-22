@@ -1,5 +1,6 @@
 import React from 'react';
-import { Label, ErrorLabel } from './';
+import Label from './Label';
+import ErrorLabel from './ErrorLabel';
 
 interface IProps {
   label?: string;

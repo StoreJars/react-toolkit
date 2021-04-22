@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { produce } from 'immer';
 
 import imageValidator from '../imageValidator';
-import { MediaSelect, MediaPreview, Label, ErrorLabel } from './';
+import MediaSelect from './MediaSelect';
+import MediaPreview from './MediaPreview';
+import Label from './Label';
+import ErrorLabel from './ErrorLabel';
 
 interface IProps {
   label: string;
