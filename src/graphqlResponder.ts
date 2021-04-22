@@ -8,7 +8,6 @@ export default function gqlResponder(error) {
     const { graphQLErrors, networkError } = error;
 
     if (networkError) {
-      console.log('Network Error', networkError);
       Bugsnag.notify(networkError);
       return SERVICE_UNAVAILABLE_MESSAGE;
     }
@@ -26,7 +25,6 @@ export default function gqlResponder(error) {
         }
 
         Bugsnag.notify(error);
-        console.log('GraphQL Error', error);
         return error;
       } else {
         let error;
@@ -37,13 +35,13 @@ export default function gqlResponder(error) {
           error = UNEXPECTED_ERROR_MESSAGE;
         }
         Bugsnag.notify(error);
-        console.log('Network Error', error);
         return error;
       }
     }
 
     return UNEXPECTED_ERROR_MESSAGE;
   } catch (ex) {
+    Bugsnag.notify(ex);
     return ex.message;
   }
 }
