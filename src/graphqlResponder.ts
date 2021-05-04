@@ -1,7 +1,7 @@
 import Bugsnag from '@bugsnag/js';
 
 export default function gqlResponder(error) {
-  const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please try again later';
+  const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please check your network connection and try again';
   const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occurred';
 
   try {
