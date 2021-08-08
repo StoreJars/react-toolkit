@@ -19,7 +19,11 @@ export function basePath(theme: string) {
 }
 
 export function productLink(name: string, id: string) {
-  return `/product/${formatProductLink(name.toLowerCase())}-${id}`;
+  try {
+    return `/product/${formatProductLink(name.toLowerCase())}-${id}`;
+  } catch (error) {
+    return '';
+  }
 }
 
 function formatProductLink(string: string) {
