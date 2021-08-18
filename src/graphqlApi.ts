@@ -21,14 +21,12 @@ export default class API {
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors) {
-            graphQLErrors.forEach((message, locations, path) => {
+            graphQLErrors.forEach((message) => {
               console.log('[GraphQL error]', message);
-              console.log(locations, path);
             });
           }
           if (networkError) {
-            console.log(`[Network error]: ${networkError}`);
-            console.log(networkError);
+            console.log('[Network error]', networkError);
           }
         }),
         createUploadLink({
