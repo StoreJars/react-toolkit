@@ -1,6 +1,4 @@
-import Bugsnag from '@bugsnag/js';
-
-export default function gqlResponder(error) {
+export default function gqlResponder(error, notify = (error) => console.log(error)) {
   const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please check your network connection and try again';
   const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occurred';
 
@@ -8,7 +6,7 @@ export default function gqlResponder(error) {
     const { graphQLErrors, networkError } = error;
 
     if (networkError) {
-      Bugsnag.notify(networkError);
+      notify(networkError);
       return SERVICE_UNAVAILABLE_MESSAGE;
     }
 
@@ -24,7 +22,7 @@ export default function gqlResponder(error) {
           error = response.body.data;
         }
 
-        Bugsnag.notify(error);
+        notify(error);
         return error;
       } else {
         let error;
@@ -34,14 +32,14 @@ export default function gqlResponder(error) {
         } else {
           error = UNEXPECTED_ERROR_MESSAGE;
         }
-        Bugsnag.notify(error);
+        notify(error);
         return error;
       }
     }
 
     return UNEXPECTED_ERROR_MESSAGE;
   } catch (ex) {
-    Bugsnag.notify(ex);
+    notify(ex);
     return ex.message;
   }
 }
