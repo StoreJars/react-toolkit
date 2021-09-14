@@ -4,7 +4,14 @@ export function formatPrice(amount: any) {
 }
 
 export function calculateTotal(cart) {
-  return cart?.reduce((accumulator, item) => parseFloat(item.price) * item.quantity + accumulator, 0);
+  try {
+    return cart?.reduce(
+      (accumulator, item) => parseFloat(item.price) * (1 - item.discount / 100) * item.quantity + accumulator,
+      0,
+    );
+  } catch (error) {
+    return 0;
+  }
 }
 
 export function resizeImage(url: string, size: string) {
