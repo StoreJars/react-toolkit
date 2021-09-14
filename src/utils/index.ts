@@ -34,7 +34,7 @@ export function productLink(name: string, id: string) {
 }
 
 function formatProductLink(string: string) {
-  return string.replace(' ', '-');
+  return string.replace(/ /g, '-');
 }
 
 export function getProductId(string: string) {
