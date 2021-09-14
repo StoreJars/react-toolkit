@@ -6,7 +6,7 @@ export function formatPrice(amount: any) {
 export function calculateTotal(cart) {
   try {
     return cart?.reduce(
-      (accumulator, item) => parseFloat(item.price) * (1 - item.discount / 100) * item.quantity + accumulator,
+      (accumulator, item) => parseFloat(item.price) * (1 - (item.discount || 0) / 100) * item.quantity + accumulator,
       0,
     );
   } catch (error) {
