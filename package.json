@@ -1,25 +1,26 @@
 {
-  "name": "storejars-client-utils",
-  "version": "1.2.4",
-  "description": "client side utilities for storejars e-commerce store",
+  "name": "storejars-react-toolkit",
+  "version": "1.0.33",
+  "description": "client side utilities for storejars e-commerce store, powered by react & redux",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "tsc",
     "dev": "tsc --watch",
-    "prepare": "rm -r dist && tsc",
+    "prepare": "rm -r dist && yarn start",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' ",
     "test": "test"
   },
   "keywords": [
     "react",
     "client",
     "utils",
-    "redux"
+    "redux",
+    "rxjs"
   ],
   "author": "Victor Akerele",
   "license": "ISC",
   "dependencies": {
-    "@ashvin27/react-datatable": "https://github.com/aiveneh/react-datatable.git",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.14",
@@ -28,20 +29,31 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "immer": "^6.0.2",
-    "react": "^16.13.0",
-    "react-feather": "^2.0.3",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-observable": "^1.2.0",
     "reselect": "^4.0.0",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "storejars-react-datatable": "^1.5.3"
+  },
+  "peerDependencies": {
+    "react": "^16.13.0",
+    "react-feather": "^2.0.3"
   },
   "devDependencies": {
     "@types/apollo-upload-client": "^8.1.3",
-    "@types/graphql": "^14.5.0",
     "@types/react": "^16.9.26",
     "@types/redux-actions": "^2.6.1",
-    "@types/reselect": "^2.2.0",
-    "typescript": "^3.8.3"
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3",
+    "react": "^16.13.0",
+    "react-feather": "^2.0.3"
   }
 }

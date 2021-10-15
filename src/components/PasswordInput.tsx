@@ -1,6 +1,7 @@
+import React, { Component } from 'react';
+import { Eye, EyeOff } from 'react-feather';
 
-import React from 'react';
-import { TextInput } from './';
+import TextInput from './TextInput';
 
 interface IProps {
   label: string;
@@ -8,22 +9,47 @@ interface IProps {
   name: string;
   value: string;
   onChange: any;
+  onBlur: any;
   error: string;
 }
 
-export default function PasswordInput(props: IProps) {
-  const { placeholder, label, onChange, name, value, error } = props;
+interface IState {
+  passwordVisible: boolean;
+}
 
-  return (
-    <TextInput
-      onChange={onChange}
-      name={name}
-      placeholder={placeholder}
-      label={label}
-      type="password"
-      value={value}
-      error={error}
-      required
-    />
-  )
+export default class PasswordInput extends Component<IProps, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      passwordVisible: false,
+    };
+  }
+
+  togglePasswordVisibility = () => {
+    this.setState({ passwordVisible: !this.state.passwordVisible });
+  };
+
+  render() {
+    const { placeholder, label, onChange, onBlur, name, value, error } = this.props;
+    const { passwordVisible } = this.state;
+
+    return (
+      <div>
+        <i style={{ position: 'absolute', padding: '2.2rem', right: '4%' }} onClick={this.togglePasswordVisibility}>
+          {passwordVisible ? <Eye size={15} color="grey" /> : <EyeOff size={15} color="grey" />}
+        </i>
+        <TextInput
+          onChange={onChange}
+          onBlur={onBlur}
+          name={name}
+          placeholder={placeholder}
+          label={label}
+          type={passwordVisible ? 'text' : 'password'}
+          value={value}
+          error={error}
+          required
+        />
+      </div>
+    );
+  }
 }

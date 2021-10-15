@@ -9,48 +9,77 @@ import { from } from './operators';
 
 export default class API {
   private URL: string;
-  private client;
-  private token: string | null;
+  private tokenStorage: any;
 
-  constructor(url: string, token: string | null) {
+  constructor(url: string, tokenStorage: any) {
     this.URL = url;
-    this.token = token;
-    /**
- * If on server, mock out mutate and client functions
- */
-    this.client = new ApolloClient({
+    this.tokenStorage = tokenStorage;
+  }
+
+  private client(token) {
+    return new ApolloClient({
       link: ApolloLink.from([
         onError(({ graphQLErrors, networkError }) => {
           if (graphQLErrors) {
-            graphQLErrors.forEach((message, locations, path) => {
-              console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-            })
+            graphQLErrors.forEach((message) => {
+              console.log('[GraphQL error]', message);
+            });
           }
           if (networkError) {
-            console.log(`[Network error]: ${networkError}`);
+            console.log('[Network error]', networkError);
           }
         }),
         createUploadLink({
           uri: this.URL,
           credentials: 'same-origin',
-          headers: { Authorization: this.token }
-        })
+          headers: { Authorization: token },
+        }),
       ]),
-      cache: new InMemoryCache()
-    })
+      cache: new InMemoryCache(),
+    });
   }
 
   public query$(query: any, payload = {}) {
-    return from(this.client.query({
-      query: gql`${query}`,
-      variables: { input: payload },
-    }));
+    const { token } = this.tokenStorage.get();
+
+    return from(
+      this.client(token).query({
+        query: gql`
+          ${query}
+        `,
+        variables: { input: payload },
+      }),
+    );
   }
 
-  public mutate$(query: any, payload: object) {
-    return from(this.client.mutate({
+  public mutate$(query: any, payload: any) {
+    const { token } = this.tokenStorage.get();
+
+    return from(
+      this.client(token).mutate({
+        mutation: query,
+        variables: { input: payload },
+      }),
+    );
+  }
+
+  public query(query: any, payload = {}) {
+    const { token } = this.tokenStorage.get();
+
+    return this.client(token).query({
+      query: gql`
+        ${query}
+      `,
+      variables: { input: payload },
+    });
+  }
+
+  public mutate(query: any, payload: any) {
+    const { token } = this.tokenStorage.get();
+
+    return this.client(token).mutate({
       mutation: query,
       variables: { input: payload },
-    }));
+    });
   }
 }

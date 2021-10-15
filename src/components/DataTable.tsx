@@ -1,43 +1,31 @@
-import React, { Component } from 'react';
-import ReactDatatable from '@ashvin27/react-datatable';
+import React from 'react';
+import ReactDatatable from 'storejars-react-datatable';
 
-const config = {
-  page_size: 10,
-  length_menu: [10, 20, 50],
-  button: {
-    excel: true,
-    print: true,
-    extra: true,
-  }
-};
-
-const extraButtons = [
-  // {
-  //   className: "btn btn-primary buttons-pdf",
-  //   title: "Export Test",
-  //   children: [
-  //     <span>
-  //       <i className="glyphicon glyphicon-print fa fa-print" aria-hidden="true"></i>
-  //     </span>
-  //   ],
-  //   onClick: (event) => { },
-  // },
-];
+const extraButtons = [];
 
 interface IProps {
   records: any;
-  columns: any
+  columns: any;
+  excel?: boolean;
+  print?: boolean;
+  csv?: boolean;
+  filename?: string;
 }
 
-export default function (props: IProps) {
-  const { records, columns } = props;
+export default function DataTable(props: IProps) {
+  const { records, columns, csv, print, filename } = props;
 
-  return (
-    <ReactDatatable
-      config={config}
-      records={records}
-      columns={columns}
-      extraButtons={extraButtons}
-    />
-  )
+  const config = {
+    page_size: 50,
+    length_menu: [50, 100, 150, 200],
+    filename,
+    button: {
+      csv,
+      print,
+      excel: false,
+      extra: false,
+    },
+  };
+
+  return <ReactDatatable config={config} records={records} columns={columns} extraButtons={extraButtons} />;
 }

@@ -3,17 +3,11 @@ import React from 'react';
 
 export function Loading() {
   return (
-    <div className='loading_spinner-wrap'>
-      <svg
-        className='loading_spinner'
-        width='60'
-        height='20'
-        viewBox='0 0 60 20'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <circle cx='7' cy='15' r='4' />
-        <circle cx='30' cy='15' r='4' />
-        <circle cx='53' cy='15' r='4' />
+    <div className="loading_spinner-wrap">
+      <svg className="loading_spinner" width="60" height="20" viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="15" r="4" />
+        <circle cx="30" cy="15" r="4" />
+        <circle cx="53" cy="15" r="4" />
       </svg>
     </div>
   );
@@ -37,9 +31,9 @@ export function AppleSpinner() {
         <path d="M25.998,12.499h-5.501c-0.552,0-1.001,0.448-1.001,1.001c0,0.552,0.447,1,1.001,1h5.501c0.554,0,1.002-0.448,1.002-1 C27,12.946,26.552,12.499,25.998,12.499z" />
       </svg>
     </div>
-  )
+  );
 }
 
 export function Spinner() {
-  return <div id='loading' />;
+  return <div id="loading" />;
 }

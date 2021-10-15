@@ -6,7 +6,7 @@ export default function Checkbox() {
       <label className="form-check-label">
         <input type="checkbox" className="form-check-input" />
         Remember me
-    </label>
+      </label>
     </div>
-  )
+  );
 }

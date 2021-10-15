@@ -11,17 +11,28 @@ export default function SettingsSidebar() {
         <div className="form-group border-bottom">
           <div className="form-check form-check-inline">
             <label className="form-check-label">
-              <input type="radio" className="form-check-input" name="sidebarThemeSettings" id="sidebarLight"
-                value="sidebar-light" checked />
+              <input
+                type="radio"
+                className="form-check-input"
+                name="sidebarThemeSettings"
+                id="sidebarLight"
+                value="sidebar-light"
+                checked
+              />
               Light
-        </label>
+            </label>
           </div>
           <div className="form-check form-check-inline">
             <label className="form-check-label">
-              <input type="radio" className="form-check-input" name="sidebarThemeSettings" id="sidebarDark"
-                value="sidebar-dark" />
+              <input
+                type="radio"
+                className="form-check-input"
+                name="sidebarThemeSettings"
+                id="sidebarDark"
+                value="sidebar-dark"
+              />
               Dark
-        </label>
+            </label>
           </div>
         </div>
         <div className="theme-wrapper">
@@ -36,5 +47,5 @@ export default function SettingsSidebar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
