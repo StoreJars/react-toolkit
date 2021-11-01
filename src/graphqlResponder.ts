@@ -1,4 +1,4 @@
-export default function gqlResponder(error, notify = (error) => ({})) {
+export default function gqlResponder(error, errorReporter?: any) {
   const SERVICE_UNAVAILABLE_MESSAGE = 'Service unavailable, please check your network connection and try again';
   const UNEXPECTED_ERROR_MESSAGE = 'Please try again, an unexpected error occurred';
 
@@ -6,7 +6,7 @@ export default function gqlResponder(error, notify = (error) => ({})) {
     const { graphQLErrors, networkError } = error;
 
     if (networkError) {
-      notify(networkError);
+      errorReporter.notify(networkError);
       return SERVICE_UNAVAILABLE_MESSAGE;
     }
 
@@ -22,7 +22,7 @@ export default function gqlResponder(error, notify = (error) => ({})) {
           error = response.body.data;
         }
 
-        notify(error);
+        errorReporter.notify(error);
         return error;
       } else {
         let error;
@@ -32,14 +32,14 @@ export default function gqlResponder(error, notify = (error) => ({})) {
         } else {
           error = UNEXPECTED_ERROR_MESSAGE;
         }
-        notify(error);
+        errorReporter.notify(error);
         return error;
       }
     }
 
     return UNEXPECTED_ERROR_MESSAGE;
   } catch (ex) {
-    notify(ex);
+    errorReporter.notify(ex);
     return ex.message;
   }
 }
