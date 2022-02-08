@@ -10,10 +10,12 @@ import { from } from './operators';
 export default class API {
   private URL: string;
   private tokenStorage: any;
+  private headers: any;
 
-  constructor(url: string, tokenStorage: any) {
+  constructor(url: string, tokenStorage: any, headers = {}) {
     this.URL = url;
     this.tokenStorage = tokenStorage;
+    this.headers = headers;
   }
 
   private client(token) {
@@ -32,7 +34,7 @@ export default class API {
         createUploadLink({
           uri: this.URL,
           credentials: 'same-origin',
-          headers: { Authorization: token },
+          headers: { Authorization: token, ...this.headers },
         }),
       ]),
       cache: new InMemoryCache(),
