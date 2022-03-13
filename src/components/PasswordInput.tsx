@@ -11,6 +11,7 @@ interface IProps {
   onChange: any;
   onBlur: any;
   error: string;
+  containerStyle?: any;
 }
 
 interface IState {
@@ -30,12 +31,15 @@ export default class PasswordInput extends Component<IProps, IState> {
   };
 
   render() {
-    const { placeholder, label, onChange, onBlur, name, value, error } = this.props;
+    const { placeholder, label, onChange, onBlur, name, value, error, containerStyle } = this.props;
     const { passwordVisible } = this.state;
 
     return (
       <div>
-        <i style={{ position: 'absolute', padding: '2.2rem', right: '4%' }} onClick={this.togglePasswordVisibility}>
+        <i
+          style={{ position: 'absolute', padding: '2.2rem', right: '4%', ...containerStyle }}
+          onClick={this.togglePasswordVisibility}
+        >
           {passwordVisible ? <Eye size={15} color="grey" /> : <EyeOff size={15} color="grey" />}
         </i>
         <TextInput
