@@ -1,6 +1,6 @@
 {
   "name": "storejars-react-toolkit",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "client side utilities for storejars e-commerce store, powered by react & redux",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
